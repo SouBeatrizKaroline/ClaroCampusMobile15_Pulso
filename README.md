@@ -2,38 +2,31 @@
 
 ## Primeiros Socorros Inteligentes
 
-<p align="center">
-  <img src="assets/logo-pulso.png" width="180" alt="Logo Pulso">
-</p>
-
 <h3 align="center">
   Quando cada segundo importa, o Pulso guia o primeiro cuidado.
 </h3>
 
 <p align="center">
-  Uma plataforma digital criada para orientar pessoas em situações de emergência através de tecnologia, acessibilidade e informação confiável.
+  Uma interface digital criada para tornar o acesso aos primeiros socorros mais simples, rápido e acessível.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Em%20Desenvolvimento-red">
-  <img src="https://img.shields.io/badge/Projeto-Sa%C3%BAde%20%26%20Tecnologia-blue">
-  <img src="https://img.shields.io/badge/Modo-PWA-green">
-  <img src="https://img.shields.io/badge/Offline-Sim-orange">
+  🚧 Projeto em desenvolvimento — MVP Interface Inicial
 </p>
 
 ---
 
 # 🚨 Sobre o Projeto
 
-O **PULSO — Primeiros Socorros Inteligentes** é uma plataforma criada para ajudar pessoas comuns a tomarem as primeiras atitudes diante de uma emergência.
+O **PULSO — Primeiros Socorros Inteligentes** é uma plataforma digital criada com o objetivo de orientar pessoas durante situações de emergência.
 
-Antes do atendimento profissional chegar, existe alguém próximo da situação.
+A ideia nasceu de uma pergunta simples:
 
-O Pulso nasceu para responder uma pergunta:
+> "Se algo acontecer agora, eu sei o que fazer?"
 
-> "O que eu faço agora?"
+Em momentos críticos, muitas pessoas entram em pânico ou não sabem qual atitude tomar.
 
-Através de orientações simples, visuais e acessíveis, a plataforma guia o usuário durante os primeiros minutos de uma ocorrência.
+O Pulso busca transformar conhecimento em ação através de uma experiência simples, visual e intuitiva.
 
 ---
 
@@ -41,181 +34,135 @@ Através de orientações simples, visuais e acessíveis, a plataforma guia o us
 
 ## O modo emergência do Pulso
 
-O **Primeiro Minuto** é uma experiência criada para momentos críticos.
+O **Primeiro Minuto** será o principal recurso da plataforma no futuro.
 
-Sem login.
-Sem cadastro.
-Sem burocracia.
+Uma área criada para momentos em que cada segundo importa.
 
-Apenas:
+A proposta:
 
 ```
-🚨 Abrir
-      ↓
-🔎 Identificar
-      ↓
-📖 Seguir orientação
-      ↓
-❤️ Ajudar
-```
-
-Pensado para situações onde a pessoa pode estar:
-
-* 😰 Nervosa
-* 😨 Assustada
-* ⏳ Sem tempo
-* ❓ Sem conhecimento técnico
-
----
-
-# 💡 Como funciona?
-
-```mermaid
-flowchart TD
-
-A[Usuário abre o Pulso] --> B{O que aconteceu?}
-
-B --> C[Engasgo]
-B --> D[Parada Cardíaca]
-B --> E[Queimadura]
-B --> F[Sangramento]
-B --> G[Outra emergência]
-
-C --> H[Orientação passo a passo]
-D --> H
-E --> H
-F --> H
-G --> H
-
-H --> I[Texto + Voz + Visual]
-I --> J[Ação até chegada do socorro]
+🚨 Identificar a situação
+        ↓
+🧭 Receber orientação
+        ↓
+❤️ Realizar os primeiros cuidados
+        ↓
+📞 Buscar ajuda especializada
 ```
 
 ---
 
-# 🧠 Recursos
+# 🎨 Versão Atual
 
-## ❤️ Pulso Emergência
+## Interface Inicial
 
-Guia interativo para situações como:
+Atualmente o projeto conta com a primeira versão visual da plataforma.
 
-* 🫁 Falta de respiração
-* ❤️ Parada cardíaca
-* 😮 Engasgo
-* 🩸 Sangramentos
-* 🔥 Queimaduras
-* 🧠 Convulsões
-* 🚗 Acidentes
-* 👶 Emergências infantis
-* 👴 Emergências com idosos
+A interface inicial apresenta:
+
+✅ Identidade visual do Pulso
+✅ Tela principal de emergência
+✅ Organização das categorias de atendimento
+✅ Experiência pensada para acesso rápido
+✅ Design focado em clareza e simplicidade
 
 ---
 
-## 🗣️ Pulso Voz
+# 🖥️ Preview da Interface
 
-Um assistente que acompanha o usuário.
+Adicionar imagens do projeto:
 
-Características:
+```
+/assets/screenshots
 
-✅ Leitura das instruções
-✅ Orientação por áudio
-✅ Repetição dos passos
-✅ Comandos de voz
+├── home.png
+├── emergencia.png
+└── categorias.png
+```
 
 Exemplo:
 
-> "Estou aqui com você. Vamos fazer uma etapa de cada vez."
+<p align="center">
+  <img src="assets/screenshots/home.png" width="700">
+</p>
 
 ---
 
-## 👁️ Pulso Visual
+# 🧩 Conceito da Interface
 
-Aprendizado através de:
+A experiência foi criada pensando em usuários que podem estar:
 
-* Ilustrações
-* Animações
-* Vídeos curtos
-* Simulações
+* 😰 Nervosos
+* ⏰ Com pressa
+* ❓ Sem conhecimento técnico
+* 📱 Usando o celular em uma emergência
 
-Porque em uma emergência, ver pode ser mais fácil do que ler.
+Por isso, a interface prioriza:
 
----
-
-## 📱 Pulso Offline
-
-Criado como uma PWA:
-
-* Instalação no celular
-* Uso sem internet
-* Acesso rápido
-* Conteúdo essencial disponível offline
+* Poucos elementos
+* Botões grandes
+* Navegação simples
+* Informações diretas
 
 ---
 
-# ♿ Acessibilidade
+# 🚀 Próximos Passos
 
-O Pulso foi pensado para diferentes públicos:
+O projeto está sendo desenvolvido em etapas.
 
-* 👴 Idosos
-* 👶 Crianças
-* ♿ Pessoas com deficiência
-* 🌎 Pessoas com diferentes idiomas
+## Fase 1 — Interface Inicial ✅
 
-Recursos:
+* [x] Criação da identidade visual
+* [x] Estrutura inicial da plataforma
+* [x] Tela principal
+* [x] Categorias de emergência
+* [x] Design responsivo
 
-* 🔊 Leitura de tela
-* 🗣️ Controle por voz
-* 👁️ Alto contraste
-* 🔤 Fonte ampliada
-* 🤟 Libras futuramente
+---
+
+## Fase 2 — Interatividade
+
+Planejado:
+
+* [ ] Fluxos de orientação passo a passo
+* [ ] Protocolos de primeiros socorros
+* [ ] Animações educativas
+* [ ] Sistema de perguntas e respostas
+
+---
+
+## Fase 3 — Recursos Inteligentes
+
+Planejado:
+
+* [ ] Pulso Voz (assistente de voz)
+* [ ] Orientação por áudio
+* [ ] Funcionamento offline
+* [ ] Aplicativo mobile
+* [ ] Integração com WhatsApp
 
 ---
 
 # 🛠️ Tecnologias
 
-## Front-end
+A primeira versão utiliza:
 
-<p>
-<img src="https://skillicons.dev/icons?i=html,css,js">
-</p>
+## Front-end
 
 * HTML5
 * CSS3
-* JavaScript Vanilla
+* JavaScript
 
-## Backend
-
-<p>
-<img src="https://skillicons.dev/icons?i=nodejs,express">
-</p>
+Tecnologias futuras:
 
 * Node.js
-* Express.js
-
-## Arquitetura
-
-```
-Frontend
-   |
-   |
-JSON Local
-   |
-   |
-Backend Node.js
-```
-
-Sem banco de dados inicialmente.
-
-Os protocolos são armazenados em arquivos locais:
-
-```
-data/
- └── protocolos.json
-```
+* PWA
+* APIs de voz
+* Aplicativo mobile
 
 ---
 
-# 📂 Estrutura do Projeto
+# 📂 Estrutura Atual
 
 ```
 PULSO/
@@ -226,78 +173,47 @@ PULSO/
 │   └── style.css
 
 ├── js/
-│   ├── app.js
-│   ├── voz.js
-│   └── protocolos.js
-
-├── data/
-│   └── protocolos.json
+│   └── app.js
 
 ├── assets/
 │   ├── imagens
-│   ├── vídeos
-│   └── áudios
+│   └── ícones
 
-├── manifest.json
-
-├── service-worker.js
-
-└── backend/
-    └── server.js
+└── README.md
 ```
 
 ---
 
-# 🚀 Roadmap
+# 🌱 Visão do Projeto
 
-## Fase 1 — MVP
+O Pulso pretende evoluir para uma plataforma completa de primeiros socorros:
 
-[x] Interface inicial
-[x] Protocolos básicos
-[x] Sistema offline
-[ ] Assistente de voz
-[ ] Animações educativas
+❤️ **Pulso Emergência**
+Orientação rápida em situações críticas.
 
-## Fase 2 — Expansão
+🗣️ **Pulso Voz**
+Assistente inteligente por voz.
 
-[ ] Aplicativo Android
-[ ] Extensão de navegador
-[ ] WhatsApp Bot
-[ ] Mais idiomas
-[ ] Libras
+👁️ **Pulso Visual**
+Animações e demonstrações.
 
-## Fase 3 — Ecossistema Pulso
+📱 **Pulso Offline**
+Acesso mesmo sem internet.
 
-[ ] Pulso Escola
-[ ] Pulso Empresas
-[ ] Pulso Comunidade
-[ ] Treinamentos em primeiros socorros
+🌎 **Pulso Acessível**
+Tecnologia para todos.
 
 ---
 
-# 🌎 Impacto
+# ❤️ Missão
 
-O Pulso busca transformar tecnologia em cuidado.
-
-Porque muitas vezes a primeira pessoa a chegar não é um profissional de saúde.
-
-É alguém próximo.
-
-E essa pessoa precisa saber:
-
-**o que fazer, como fazer e quando fazer.**
-
----
-
-# ❤️ Nossa missão
-
-> Tornar o conhecimento de primeiros socorros acessível para todos.
+Criar uma tecnologia capaz de aproximar conhecimento de primeiros socorros das pessoas, ajudando-as a agir melhor quando alguém precisar.
 
 ---
 
 <p align="center">
 
-## ❤️ PULSO
+# ❤️ PULSO
 
 ### Quando cada segundo importa, o Pulso guia o primeiro cuidado.
 
