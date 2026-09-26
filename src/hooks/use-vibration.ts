@@ -5,7 +5,7 @@ export function useVibration() {
     if ('vibrate' in navigator) {
       try {
         navigator.vibrate(pattern)
-      } catch (e) {
+      } catch (_e) {
         // Fallback for browsers that restrict vibration without user gesture
       }
     }

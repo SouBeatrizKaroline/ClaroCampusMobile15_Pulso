@@ -1,5 +1,5 @@
-import { Phone, ShieldAlert, X } from 'lucide-react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Phone, ShieldAlert } from 'lucide-react'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useApp } from '@/context/AppContext'
 
 export function EmergencyNumbersModal() {
@@ -7,17 +7,18 @@ export function EmergencyNumbersModal() {
 
   return (
     <Dialog open={emergencyNumbersOpen} onOpenChange={setEmergencyNumbersOpen}>
-      <DialogContent className="sm:max-w-md border-2 border-red-600 bg-stone-950 text-white rounded-2xl">
+      <DialogContent className="sm:max-w-md border-2 border-red-600 bg-stone-950 text-white rounded-2xl max-h-[90dvh] overflow-y-auto">
         <DialogHeader className="flex flex-row items-center justify-between border-b border-stone-800 pb-4">
           <DialogTitle className="text-xl font-bold flex items-center gap-2 text-red-500">
             <ShieldAlert className="h-6 w-6 animate-pulse" />
             Telefones de Emergência
           </DialogTitle>
+          <DialogDescription className="sr-only">Escolha o serviço de emergência e confirme a ligação no seu aparelho.</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           <p className="text-sm text-stone-300 font-medium text-center">
-            Toque nos botões abaixo para discar imediatamente no seu celular:
+            Toque para abrir o discador e confirme a ligação. Informe endereço, ponto de referência e o que aconteceu. Use o viva-voz e siga a central.
           </p>
 
           <a
@@ -29,7 +30,7 @@ export function EmergencyNumbersModal() {
               <div className="text-left">
                 <div className="text-2xl font-black">192</div>
                 <div className="text-xs font-semibold text-red-100 uppercase tracking-wider">
-                  SAMU (Ambulância Médico)
+                  SAMU · Emergência médica
                 </div>
               </div>
             </div>

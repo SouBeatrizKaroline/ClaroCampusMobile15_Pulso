@@ -7,6 +7,7 @@ import Layout from '@/components/Layout'
 import Index from '@/pages/Index'
 import ProtocolPage from '@/pages/ProtocolPage'
 import NotFound from '@/pages/NotFound'
+import About from '@/pages/About'
 
 const App = () => (
   <BrowserRouter>
@@ -18,6 +19,7 @@ const App = () => (
           <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
             <Route path="/emergencia/:id" element={<ProtocolPage />} />
+            <Route path="/sobre" element={<About />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

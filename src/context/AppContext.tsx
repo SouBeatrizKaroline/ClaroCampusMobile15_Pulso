@@ -1,112 +1,20 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
-
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 interface AppContextType {
-  emergencyMode: boolean
-  setEmergencyMode: (val: boolean) => void
-  toggleEmergencyMode: () => void
-  largeText: boolean
-  setLargeText: (val: boolean) => void
-  readAloud: boolean
-  setReadAloud: (val: boolean) => void
-  emergencyNumbersOpen: boolean
-  setEmergencyNumbersOpen: (val: boolean) => void
-  identificationOpen: boolean
-  setIdentificationOpen: (val: boolean) => void
-  pwaInstallPrompt: any
-  installPwa: () => void
+  largeText: boolean; setLargeText: (value: boolean) => void
+  readAloud: boolean; setReadAloud: (value: boolean) => void
+  emergencyNumbersOpen: boolean; setEmergencyNumbersOpen: (value: boolean) => void
+  identificationOpen: boolean; setIdentificationOpen: (value: boolean) => void
 }
-
 const AppContext = createContext<AppContextType | undefined>(undefined)
-
-export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [emergencyMode, setEmergencyMode] = useState<boolean>(() => {
-    return localStorage.getItem('sos_emergency_mode') === 'true'
-  })
-
-  const [largeText, setLargeText] = useState<boolean>(() => {
-    return localStorage.getItem('sos_large_text') === 'true'
-  })
-
-  const [readAloud, setReadAloud] = useState<boolean>(() => {
-    return localStorage.getItem('sos_read_aloud') !== 'false'
-  })
-
-  const [emergencyNumbersOpen, setEmergencyNumbersOpen] = useState<boolean>(false)
-  const [identificationOpen, setIdentificationOpen] = useState<boolean>(false)
-  const [pwaInstallPrompt, setPwaInstallPrompt] = useState<any>(null)
-
-  useEffect(() => {
-    localStorage.setItem('sos_emergency_mode', String(emergencyMode))
-    if (emergencyMode) {
-      document.documentElement.classList.add('emergency-mode')
-      setReadAloud(true)
-      if ('vibrate' in navigator) {
-        navigator.vibrate([100, 50, 100])
-      }
-    } else {
-      document.documentElement.classList.remove('emergency-mode')
-    }
-  }, [emergencyMode])
-
-  useEffect(() => {
-    localStorage.setItem('sos_large_text', String(largeText))
-    if (largeText) {
-      document.documentElement.classList.add('large-text')
-    } else {
-      document.documentElement.classList.remove('large-text')
-    }
-  }, [largeText])
-
-  useEffect(() => {
-    localStorage.setItem('sos_read_aloud', String(readAloud))
-  }, [readAloud])
-
-  useEffect(() => {
-    const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault()
-      setPwaInstallPrompt(e)
-    }
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-  }, [])
-
-  const toggleEmergencyMode = () => setEmergencyMode((prev) => !prev)
-
-  const installPwa = () => {
-    if (pwaInstallPrompt) {
-      pwaInstallPrompt.prompt()
-      pwaInstallPrompt.userChoice.then(() => setPwaInstallPrompt(null))
-    }
-  }
-
-  return (
-    <AppContext.Provider
-      value={{
-        emergencyMode,
-        setEmergencyMode,
-        toggleEmergencyMode,
-        largeText,
-        setLargeText,
-        readAloud,
-        setReadAloud,
-        emergencyNumbersOpen,
-        setEmergencyNumbersOpen,
-        identificationOpen,
-        setIdentificationOpen,
-        pwaInstallPrompt,
-        installPwa,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
-  )
+function readPreference(key: string) { try { return localStorage.getItem(key) === 'true' } catch { return false } }
+function savePreference(key: string, value: boolean) { try { localStorage.setItem(key, String(value)) } catch { /* Private browsing can deny storage; in-memory state still works. */ } }
+export function AppProvider({ children }: { children: ReactNode }) {
+  const [largeText, setLargeText] = useState(() => readPreference('pulso_large_text'))
+  // Audio starts only after an explicit action in this session.
+  const [readAloud, setReadAloud] = useState(false)
+  const [emergencyNumbersOpen, setEmergencyNumbersOpen] = useState(false)
+  const [identificationOpen, setIdentificationOpen] = useState(false)
+  useEffect(() => { savePreference('pulso_large_text', largeText); document.documentElement.classList.toggle('large-text', largeText) }, [largeText])
+  return <AppContext.Provider value={{ largeText, setLargeText, readAloud, setReadAloud, emergencyNumbersOpen, setEmergencyNumbersOpen, identificationOpen, setIdentificationOpen }}>{children}</AppContext.Provider>
 }
-
-export const useApp = () => {
-  const context = useContext(AppContext)
-  if (!context) {
-    throw new Error('useApp must be used within an AppProvider')
-  }
-  return context
-}
+export function useApp() { const context = useContext(AppContext); if (!context) throw new Error('useApp must be used within AppProvider'); return context }

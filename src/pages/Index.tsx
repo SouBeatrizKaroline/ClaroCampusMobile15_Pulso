@@ -1,151 +1,41 @@
-import { Link } from 'react-router-dom'
-import { Volume2, ZoomIn, Globe, ArrowRight, WifiOff, ShieldAlert } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { ArrowRight, Search, Mic, MicOff, ShieldCheck, Phone, AudioLines, ArrowUpRight, X, BookOpen } from 'lucide-react'
 import { PROTOCOLS, CARD_ORDER } from '@/data/protocols'
-import { Button } from '@/components/ui/button'
-import { PwaInstallBanner } from '@/components/PwaInstallBanner'
+import { ProtocolIcon } from '@/components/ProtocolIcon'
 import { useApp } from '@/context/AppContext'
 import { useSpeech } from '@/hooks/use-speech'
-import { cn } from '@/lib/utils'
-
+import { normalizeText } from '@/lib/voice-commands'
 export default function Index() {
-  const { setIdentificationOpen, largeText, setLargeText, readAloud, setReadAloud } = useApp()
-  const { speak } = useSpeech()
-
-  const handleReadPageTitle = () => {
-    speak(
-      'Estou aqui para ajudar. O que está acontecendo? Fique calmo. Eu vou te guiar passo a passo.',
-    )
-  }
-
-  return (
-    <div className="pb-16">
-      <PwaInstallBanner />
-
-      <section className="bg-gradient-to-b from-red-50/80 via-background to-background pt-8 pb-10 border-b border-red-100">
-        <div className="container mx-auto max-w-5xl px-4 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-100 border border-red-200 text-red-700 text-xs font-bold mb-4 shadow-sm">
-            <WifiOff className="h-3.5 w-3.5" /> Funciona 100% Offline e Sem Login
-          </div>
-
-          <h1 className="text-5xl sm:text-6xl font-black text-stone-900 tracking-tight mb-1">
-            PULSO
-          </h1>
-          <p className="text-sm sm:text-base font-bold text-red-600 uppercase tracking-widest mb-4">
-            Primeiros Socorros Inteligentes
-          </p>
-
-          <p className="text-base sm:text-lg text-stone-600 max-w-2xl mx-auto font-medium leading-relaxed mb-2">
-            Quando cada segundo importa, o Pulso guia o primeiro cuidado.
-          </p>
-
-          <div className="mt-6 mb-4">
-            <h2 className="text-2xl sm:text-3xl font-black text-stone-900 mb-2">
-              ⏱️ PRIMEIRO MINUTO
-            </h2>
-            <p className="text-lg sm:text-xl text-stone-700 max-w-2xl mx-auto font-semibold">
-              Estou aqui para ajudar. O que está acontecendo?
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleReadPageTitle}
-              className="rounded-full text-xs font-bold gap-1.5 bg-white shadow-sm"
-              aria-label={
-                readAloud ? 'Desativar leitura em voz alta' : 'Ativar leitura em voz alta'
-              }
-            >
-              <Volume2 className="h-3.5 w-3.5 text-red-600" />
-              {readAloud ? '🔊 Voz Ativa' : 'Ativar Voz'}
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setLargeText(!largeText)}
-              className={cn(
-                'rounded-full text-xs font-bold gap-1.5 bg-white shadow-sm',
-                largeText ? 'ring-2 ring-red-500' : '',
-              )}
-              aria-label="Alternar texto grande"
-            >
-              <ZoomIn className="h-3.5 w-3.5 text-red-600" />
-              Texto Grande
-            </Button>
-            <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-stone-100 text-stone-700 text-xs font-bold border">
-              <Globe className="h-3.5 w-3.5 text-stone-500" /> pt-BR
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="container mx-auto max-w-6xl px-4 py-8" aria-label="Lista de emergências">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {CARD_ORDER.map((protocolId) => {
-            const p = PROTOCOLS[protocolId]
-            if (!p) return null
-            return (
-              <Link
-                key={p.id}
-                to={`/emergencia/${p.id}`}
-                className="group relative bg-card hover:bg-red-50/50 border-2 border-stone-200 hover:border-red-500 rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between active:scale-98 focus:outline-none focus:ring-4 focus:ring-red-200"
-                aria-label={`Abrir protocolo: ${p.title}`}
-              >
-                {p.urgencyLevel === 'critica' && (
-                  <span className="absolute top-3 right-3 bg-red-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
-                    Urgente
-                  </span>
-                )}
-                <div>
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-red-100/80 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl mb-3 group-hover:scale-110 transition-transform shadow-inner">
-                    {p.emoji}
-                  </div>
-                  <h3 className="font-bold text-base sm:text-lg text-foreground group-hover:text-red-700 leading-snug mb-1">
-                    {p.title}
-                  </h3>
-                  <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                    {p.summary}
-                  </p>
-                </div>
-                <div className="mt-4 flex items-center text-xs font-bold text-red-600 group-hover:translate-x-1 transition-transform">
-                  Ver Passos <ArrowRight className="h-3.5 w-3.5 ml-1" />
-                </div>
-              </Link>
-            )
-          })}
-
-          <button
-            onClick={() => setIdentificationOpen(true)}
-            className="group bg-gradient-to-br from-amber-500 to-red-600 text-white rounded-2xl p-5 shadow-lg hover:shadow-xl transition-all duration-200 flex flex-col justify-between text-left active:scale-98 focus:outline-none focus:ring-4 focus:ring-amber-300"
-            aria-label="Não sei identificar - iniciar diagnóstico"
-          >
-            <div>
-              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform">
-                ❓
-              </div>
-              <h3 className="font-black text-lg sm:text-xl text-white mb-1">Não sei identificar</h3>
-              <p className="text-xs text-amber-100 leading-relaxed font-medium">
-                Responda a 4 perguntas rápidas para encontrarmos o protocolo certo.
-              </p>
-            </div>
-            <div className="mt-4 flex items-center text-xs font-bold text-white bg-black/20 px-3 py-1.5 rounded-xl w-fit">
-              Iniciar Diagnóstico <ArrowRight className="h-3.5 w-3.5 ml-1" />
-            </div>
-          </button>
-        </div>
-      </section>
-
-      <section className="container mx-auto max-w-4xl px-4 py-6">
-        <div className="bg-stone-100 border border-stone-300 rounded-2xl p-4 sm:p-5 flex items-start gap-3">
-          <ShieldAlert className="h-5 w-5 text-stone-500 shrink-0 mt-0.5" />
-          <p className="text-xs sm:text-sm text-stone-600 font-medium leading-relaxed">
-            <strong>Aviso:</strong> A plataforma PULSO não substitui profissionais de saúde,
-            diagnósticos ou serviços de emergência. Em caso de gravidade, ligue imediatamente para o
-            SAMU (192) ou Bombeiros (193).
-          </p>
-        </div>
-      </section>
-    </div>
-  )
+  const { setIdentificationOpen, setEmergencyNumbersOpen } = useApp()
+  const voice = useSpeech()
+  const [search, setSearch] = useState('')
+  const [filter, setFilter] = useState('Todas')
+  const location = useLocation()
+  useEffect(() => { if (location.hash === '#situacoes') document.getElementById('situacoes')?.scrollIntoView() }, [location])
+  const matches = CARD_ORDER.map(id => PROTOCOLS[id]).filter(p => {
+    const matchesQuery = normalizeText(`${p.title} ${p.summary} ${(p.keywords || []).join(' ')}`).includes(normalizeText(search))
+    return matchesQuery && (filter === 'Todas' || (filter === 'Urgentes' ? p.urgencyLevel === 'critica' : filter === 'Bebês e crianças' ? p.id === 'emergencia-bebe' : ['acidente', 'incendio', 'afogamento', 'choque-eletrico', 'queda-fratura'].includes(p.id)))
+  })
+  const listen = () => voice.isListening ? voice.stopListening() : voice.startListening((command, text) => {
+    if (command === 'help') { setEmergencyNumbersOpen(true); return }
+    setSearch(text); setFilter('Todas'); document.getElementById('situacoes')?.scrollIntoView({ behavior: 'smooth' })
+  })
+  return <div>
+    <section className="hero page-width">
+      <div className="hero-copy"><p className="eyebrow"><span/> CUIDADO QUE COMEÇA COM VOCÊ</p><h1>O primeiro cuidado.<br/><em>Um passo de cada vez.</em></h1><p className="hero-description">Saiba como ajudar enquanto o socorro chega. Orientações diretas, no seu ritmo — para ler ou ouvir.</p><div className="hero-actions"><button className="button button-red" onClick={() => setIdentificationOpen(true)}>Preciso de orientação <ArrowRight size={19}/></button><a className="text-link" href="#situacoes">Ver situações <ArrowRight size={17}/></a></div><p className="hero-note"><ShieldCheck size={17}/> Sem cadastro. Acesso livre. Ajuda em português.</p></div>
+      <div className="first-minute"><div className="first-minute-top"><span className="eyebrow">ANTES DE COMEÇAR</span><span className="minute-mark">01<span> / PRIMEIRO MINUTO</span></span></div><div className="pulse-art" aria-hidden="true"><svg viewBox="0 0 400 100"><path d="M0 52H100L117 41L135 66L158 10L188 92L213 36L235 52H400"/></svg><div className="pulse-heart"><ProtocolIcon id="parada-cardiaca"/></div></div><h2>Você também precisa<br/>estar em segurança.</h2><p>Observe o local. Afaste-se de fogo, fios elétricos e trânsito antes de ajudar.</p><a href="tel:192" className="minute-call"><span><Phone size={17}/> Acione o SAMU</span><strong>192 <ArrowUpRight size={18}/></strong></a></div>
+    </section>
+    <section className="page-width" id="situacoes" aria-labelledby="situations-title">
+      <div className="section-heading"><div><p className="eyebrow">ENCONTRE A ORIENTAÇÃO</p><h2 id="situations-title">O que está acontecendo?</h2></div><span className="section-aside">Escolha a situação mais próxima do que você vê.</span></div>
+      <div className="search-row"><div className="search-field"><Search size={21}/><input aria-label="Buscar situação" placeholder="Busque por engasgo, queimadura, queda…" value={search} onChange={e => setSearch(e.target.value)}/>{search && <button aria-label="Limpar busca" onClick={() => setSearch('')}><X size={18}/></button>}</div><button className={`button voice-search ${voice.isListening ? 'listening' : ''}`} onClick={listen} aria-pressed={voice.isListening}>{voice.isListening ? <MicOff size={20}/> : <Mic size={20}/>}<span>{voice.isListening ? 'Parar escuta' : 'Buscar por voz'}</span></button></div>
+      <div role="status" className="voice-feedback">{voice.error || (voice.isListening ? 'Estou ouvindo. Diga o nome da situação, por exemplo: “engasgo”.' : voice.recognizedText ? `Você disse: “${voice.recognizedText}”. Escolha uma orientação abaixo.` : '')}</div>
+      <div className="filter-row" aria-label="Filtrar situações">{['Todas', 'Urgentes', 'Bebês e crianças', 'Acidentes e resgate'].map(label => <button key={label} onClick={() => setFilter(label)} aria-pressed={filter === label} className={filter === label ? 'selected' : ''}>{label}</button>)}<span>{matches.length} orientações</span></div>
+      <div className="protocol-grid">{matches.map(p => <Link className="protocol-card" key={p.id} to={`/emergencia/${p.id}`}><div className="card-top"><span className={`protocol-icon ${p.urgencyLevel === 'critica' ? 'critical' : ''}`}><ProtocolIcon id={p.id}/></span>{p.urgencyLevel === 'critica' && <span className="urgent-tag"><span/> AÇÃO IMEDIATA</span>}</div><h3>{p.title}</h3><p>{p.summary}</p><span className="card-link">O que fazer <ArrowUpRight size={18}/></span></Link>)}</div>
+      {matches.length === 0 && <div className="empty-state"><Search size={28}/><h3>Não encontramos essa situação.</h3><p>Tente uma palavra mais simples ou peça orientação. Se houver risco de vida, ligue 192.</p><button className="button button-red" onClick={() => setIdentificationOpen(true)}>Não sei identificar</button></div>}
+      <button className="help-row" onClick={() => setIdentificationOpen(true)}><span className="help-symbol">?</span><span><strong>Não sabe por onde começar?</strong><small>Algumas perguntas ajudam a encontrar o primeiro cuidado.</small></span><ArrowRight size={22}/></button>
+    </section>
+    <section className="page-width voice-section"><div className="voice-symbol" aria-hidden="true"><AudioLines/></div><div><p className="eyebrow">PULSO VOZ</p><h2>Ouça a orientação.<br/>Fique perto de quem precisa.</h2><p>Dentro de cada guia, toque em Ouvir. Para navegar por voz, toque no microfone e diga “próximo passo”, “repetir” ou “ajuda”.</p><small>O microfone só é ativado por você. O reconhecimento pode usar a internet e o serviço de voz do navegador.</small></div><Link to="/sobre#voz" className="text-link">Como funciona <ArrowUpRight size={18}/></Link></section>
+    <section className="page-width editorial-note"><BookOpen size={20}/><p>Informação para apoiar o primeiro cuidado. Não substitui o atendimento de emergência ou treinamento prático. <Link to="/sobre">Conheça as fontes e os limites do Pulso.</Link></p></section>
+  </div>
 }

@@ -1,127 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { HelpCircle, CheckCircle, XCircle, ArrowRight, RotateCcw } from 'lucide-react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useApp } from '@/context/AppContext'
-
 export function IdentificationModal() {
   const { identificationOpen, setIdentificationOpen } = useApp()
+  const [question, setQuestion] = useState(0)
   const navigate = useNavigate()
-
-  const [step, setStep] = useState(1)
-  const [answers, setAnswers] = useState({
-    conscious: null as boolean | null,
-    breathing: null as boolean | null,
-    choking: null as boolean | null,
-    bleeding: null as boolean | null,
-  })
-
-  const reset = () => {
-    setStep(1)
-    setAnswers({ conscious: null, breathing: null, choking: null, bleeding: null })
-  }
-
-  const handleClose = () => {
-    setIdentificationOpen(false)
-    setTimeout(reset, 300)
-  }
-
-  const recommendProtocol = () => {
-    if (answers.choking) return { id: 'engasgo', title: 'Engasgo', emoji: '😮' }
-    if (answers.conscious === false && answers.breathing === false)
-      return { id: 'pessoa-nao-responde', title: 'Pessoa não responde', emoji: '❤️' }
-    if (answers.breathing === false)
-      return { id: 'sem-respirar', title: 'Pessoa não respira', emoji: '🫁' }
-    if (answers.bleeding) return { id: 'sangramento', title: 'Sangramento intenso', emoji: '🩸' }
-    if (answers.conscious === false) return { id: 'desmaio', title: 'Desmaio', emoji: '😵' }
-    return { id: 'acidente', title: 'Acidente', emoji: '🚗' }
-  }
-
-  const recommended = recommendProtocol()
-
-  const handleSelectRecommendation = () => {
-    handleClose()
-    navigate(`/emergencia/${recommended.id}`)
-  }
-
-  const handleAnswer = (answer: boolean) => {
-    if (step === 1) setAnswers({ ...answers, conscious: answer })
-    if (step === 2) setAnswers({ ...answers, breathing: answer })
-    if (step === 3) setAnswers({ ...answers, choking: answer })
-    if (step === 4) setAnswers({ ...answers, bleeding: answer })
-    setStep((s) => s + 1)
-  }
-
-  return (
-    <Dialog open={identificationOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-lg rounded-2xl p-6">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-bold flex items-center gap-2 text-red-600">
-            <HelpCircle className="h-6 w-6 text-red-600" />
-            Não sei identificar - Diagnóstico Rápido
-          </DialogTitle>
-        </DialogHeader>
-
-        {step <= 4 ? (
-          <div className="space-y-6 py-2">
-            <div className="bg-stone-100 p-4 rounded-xl text-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-stone-500">
-                Pergunta {step} de 4
-              </span>
-              <h3 className="text-xl font-bold text-stone-900 mt-1">
-                {step === 1 && '1. A pessoa está consciente e respondendo quando você a chama?'}
-                {step === 2 && '2. A pessoa está respirando (peito sobe e desce)?'}
-                {step === 3 && '3. A pessoa dá sinais de engasgo (mãos no pescoço, não fala)?'}
-                {step === 4 && '4. Há algum sangramento volumoso ou ferida aberta visível?'}
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <Button
-                onClick={() => handleAnswer(true)}
-                className="h-24 font-bold text-lg flex flex-col gap-2 bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-md"
-              >
-                <CheckCircle className="h-8 w-8" />
-                SIM
-              </Button>
-              <Button
-                onClick={() => handleAnswer(false)}
-                className="h-24 font-bold text-lg flex flex-col gap-2 bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-md"
-              >
-                <XCircle className="h-8 w-8" />
-                NÃO
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-6 py-2 text-center">
-            <div className="bg-red-50 border border-red-200 p-6 rounded-2xl">
-              <span className="text-4xl">{recommended.emoji}</span>
-              <p className="text-xs font-bold text-red-600 uppercase tracking-widest mt-2">
-                Protocolo Recomendado
-              </p>
-              <h3 className="text-2xl font-black text-stone-900 mt-1">{recommended.title}</h3>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={handleSelectRecommendation}
-                className="bg-red-600 hover:bg-red-700 text-white font-bold h-14 text-lg rounded-xl shadow-lg gap-2"
-              >
-                Abrir Protocolo Recomendado <ArrowRight className="h-5 w-5" />
-              </Button>
-              <Button
-                variant="outline"
-                onClick={reset}
-                className="gap-2 font-medium text-stone-600"
-              >
-                <RotateCcw className="h-4 w-4" /> Refazer Perguntas
-              </Button>
-            </div>
-          </div>
-        )}
-      </DialogContent>
-    </Dialog>
-  )
+  const close = () => { setIdentificationOpen(false); setQuestion(0) }
+  const open = (id: string) => { close(); navigate(`/emergencia/${id}`) }
+  return <Dialog open={identificationOpen} onOpenChange={open => { if (!open) close() }}><DialogContent className="identification-dialog"><DialogHeader><DialogTitle>Vamos encontrar o primeiro cuidado.</DialogTitle><DialogDescription>Estas perguntas não fazem diagnóstico. Se houver perigo ou dúvida, ligue 192 agora.</DialogDescription></DialogHeader><a className="button button-red" href="tel:192">Ligar para o SAMU · 192</a>
+    <h3>{question === 0 ? 'É um bebê ou uma criança sem sinais de puberdade?' : question === 1 ? 'A pessoa responde quando você chama?' : 'Qual sinal você observa?'}</h3>
+    {question === 0 ? <div className="dialog-choices"><button onClick={() => open('emergencia-bebe')}>Sim, bebê ou criança</button><button onClick={() => setQuestion(1)}>Não, adolescente ou adulto</button></div> : question === 1 ? <div className="dialog-choices"><button onClick={() => open('pessoa-nao-responde')}>Não responde ou tenho dúvida</button><button onClick={() => setQuestion(2)}>Sim, está respondendo</button></div> : <div className="dialog-choices"><button onClick={() => open('engasgo')}>Engasgo: não consegue falar ou tossir</button><button onClick={() => open('sangramento')}>Sangramento intenso</button><button onClick={() => open('dor-no-peito')}>Dor no peito ou falta de ar súbita</button><button onClick={() => open('emergencia-idoso')}>Fala diferente, boca torta ou braço fraco</button><button onClick={() => { close(); document.getElementById('situacoes')?.scrollIntoView(); navigate('/#situacoes') }}>Nenhuma dessas: ver todas as situações</button></div>}
+    {question > 0 && <button className="text-link" onClick={() => setQuestion(question - 1)}>Voltar à pergunta anterior</button>}
+  </DialogContent></Dialog>
 }

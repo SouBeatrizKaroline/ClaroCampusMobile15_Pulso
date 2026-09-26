@@ -16,6 +16,7 @@ export interface ProtocolStep {
   hasRhythmMetronome?: boolean
   rhythmBpm?: number
   isFinal?: boolean
+  relatedProtocol?: string
 }
 
 export type UrgencyLevel = 'alta' | 'critica' | 'moderada'
@@ -29,6 +30,9 @@ export interface Protocol {
   isCoreOffline: boolean
   initialAlert: string
   steps: ProtocolStep[]
+  keywords?: string[]
+  audience?: string
+  sources?: string[]
 }
 
 export interface EmergencyPreference {

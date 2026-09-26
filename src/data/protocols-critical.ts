@@ -1,372 +1,520 @@
-import { Protocol } from '@/types/protocol'
+import type { Protocol } from '../types/protocol.ts'
 
 export const CRITICAL_PROTOCOLS: Record<string, Protocol> = {
-  'pessoa-nao-responde': {
-    id: 'pessoa-nao-responde',
-    title: 'Pessoa não responde',
-    emoji: '❤️',
-    summary: 'Vítima inconsciente que não reage quando chamada.',
-    urgencyLevel: 'critica',
-    isCoreOffline: true,
-    initialAlert: 'Ligue para o SAMU 192 imediatamente!',
-    steps: [
+  "pessoa-nao-responde": {
+    "id": "pessoa-nao-responde",
+    "title": "Pessoa não responde",
+    "summary": "Não reage à voz ou ao toque nos ombros.",
+    "urgencyLevel": "critica",
+    "initialAlert": "Ligue 192. Use o viva-voz e siga as instruções do SAMU.",
+    "steps": [
       {
-        id: 1,
-        title: 'Verificar segurança do local',
-        mainInstruction: 'Primeiro, verifique se o local é seguro.',
-        detailedText: 'Garanta que não há perigo para você ou para a vítima antes de se aproximar.',
-        illustrationType: 'check-safety',
+        "id": 1,
+        "title": "Segurança e pedido de ajuda",
+        "mainInstruction": "Verifique o local e ligue 192 no viva-voz.",
+        "detailedText": "Não entre em área com trânsito, fogo ou eletricidade. Peça a alguém para buscar um DEA. Este guia de compressões é para adultos e adolescentes com sinais de puberdade. Para bebês e crianças, use o guia infantil.",
+        "illustrationType": "default",
+        "relatedProtocol": "emergencia-bebe"
       },
       {
-        id: 2,
-        title: 'Verificar resposta da vítima',
-        mainInstruction: 'A pessoa responde quando você chama?',
-        detailedText: 'Chame em voz alta e toque nos ombros. Se não reagir, é grave.',
-        illustrationType: 'check-response',
-        choices: [
-          { text: '✅ Sim, responde', nextStepId: 5, variant: 'secondary' },
-          { text: '❌ Não responde', nextStepId: 3, variant: 'destructive' },
-        ],
+        "id": 2,
+        "title": "A pessoa responde?",
+        "mainInstruction": "Chame em voz alta e toque nos ombros, sem sacudir.",
+        "detailedText": "Se não reagir, avalie rapidamente a respiração. Leigos não precisam procurar pulso.",
+        "illustrationType": "default",
+        "choices": [
+          {
+            "text": "Não responde",
+            "nextStepId": 3
+          },
+          {
+            "text": "Responde",
+            "nextStepId": 6
+          }
+        ]
       },
       {
-        id: 3,
-        title: 'Verificar respiração',
-        mainInstruction: 'Observe se o peito sobe e desce por 10 segundos.',
-        detailedText: 'Incline a cabeça levemente para trás. Sinta o ar na bochecha.',
-        illustrationType: 'check-breathing',
-        choices: [
-          { text: '✅ Está respirando', nextStepId: 6, variant: 'secondary' },
-          { text: '❌ Não respira', nextStepId: 4, variant: 'destructive' },
-        ],
+        "id": 3,
+        "title": "A respiração é normal?",
+        "mainInstruction": "Observe o peito por no máximo 10 segundos.",
+        "detailedText": "Suspiros espaçados, roncos ou respiração em suspiros irregulares não são respiração normal. Se não responde e não respira normalmente, trate como parada cardíaca.",
+        "illustrationType": "default",
+        "choices": [
+          {
+            "text": "Não respira normalmente ou tenho dúvida",
+            "nextStepId": 4
+          },
+          {
+            "text": "Respira normalmente",
+            "nextStepId": 5
+          }
+        ]
       },
       {
-        id: 4,
-        title: 'Iniciar Massagem Cardíaca (RCP)',
-        mainInstruction: 'Coloque as mãos no centro do peito e pressione com força.',
-        detailedText:
-          'Entrelace os dedos, braços esticados. 100-120 compressões/min, 5-6cm de profundidade.',
-        illustrationType: 'cpr-hands',
-        hasRhythmMetronome: true,
-        rhythmBpm: 110,
-        isFinal: true,
+        "id": 4,
+        "title": "Comece as compressões",
+        "mainInstruction": "Comprima o centro do peito, forte e rápido.",
+        "detailedText": "Deite o adulto de costas em superfície firme. Coloque uma mão sobre a outra na metade inferior do osso no centro do peito, com braços esticados. Comprima de 5 a 6 cm, 100 a 120 vezes por minuto, deixando o peito voltar entre compressões. Se não souber ventilar, faça compressões contínuas. Se treinado e disposto, alterne 30 compressões e 2 ventilações.",
+        "illustrationType": "default",
+        "hasRhythmMetronome": true,
+        "rhythmBpm": 110,
+        "isFinal": true,
+        "warningNote": "Peça um DEA. Ligue e siga seus comandos; ninguém deve tocar na pessoa durante análise ou choque. Retome imediatamente as compressões após a orientação do aparelho. Continue até a equipe assumir, a pessoa voltar a respirar normalmente, o local ficar inseguro ou você não conseguir mais."
       },
       {
-        id: 5,
-        title: 'Acalmar e conversar',
-        mainInstruction: 'Converse com a pessoa e mantenha-a calma.',
-        detailedText: 'Pergunte o que aconteceu. Mantenha-a confortável até o socorro.',
-        illustrationType: 'calm-victim',
-        isFinal: true,
+        "id": 5,
+        "title": "Acompanhe a respiração",
+        "mainInstruction": "Se está inconsciente e respira normalmente, mantenha as passagem de ar livre.",
+        "detailedText": "Sem suspeita de trauma, coloque de lado. Se houver queda, acidente ou suspeita de lesão na coluna, evite movimentar e siga o SAMU; a abertura das vias aéreas tem prioridade. Observe continuamente a respiração. Se parar ou ficar em suspiros irregulares, inicie RCP.",
+        "illustrationType": "default",
+        "isFinal": true,
+        "relatedProtocol": "parada-cardiaca"
       },
       {
-        id: 6,
-        title: 'Posição Lateral de Segurança',
-        mainInstruction: 'Vire a pessoa de lado com cuidado.',
-        detailedText: 'Isso evita engasgo com saliva ou vômito enquanto aguarda socorro.',
-        illustrationType: 'recovery-position',
-        isFinal: true,
-      },
+        "id": 6,
+        "title": "Mantenha a pessoa acompanhada",
+        "mainInstruction": "Deixe a pessoa na posição em que respira melhor.",
+        "detailedText": "Informe os sintomas ao SAMU. Não ofereça alimentos, líquidos ou medicamentos. Se ela perder a resposta, reavalie imediatamente a respiração.",
+        "illustrationType": "default",
+        "isFinal": true
+      }
     ],
-  },
-  'sem-respirar': {
-    id: 'sem-respirar',
-    title: 'Pessoa não respira',
-    emoji: '🫁',
-    summary: 'Vítima inconsciente sem movimentos respiratórios.',
-    urgencyLevel: 'critica',
-    isCoreOffline: true,
-    initialAlert: 'Ligue para o SAMU 192 ou Bombeiros 193 imediatamente!',
-    steps: [
-      {
-        id: 1,
-        title: 'Verificar resposta e segurança',
-        mainInstruction: 'Chame a pessoa em voz alta e toque nos ombros.',
-        detailedText:
-          'Garanta que o local é seguro. Caso não responda, confirme se o peito está subindo.',
-        illustrationType: 'check-response',
-      },
-      {
-        id: 2,
-        title: 'Avaliar a respiração',
-        mainInstruction: 'Incline a cabeça levemente para trás e observe o tórax por 10 segundos.',
-        detailedText: 'Sinta o ar na bochecha. Se não houver respiração normal, aja rápido.',
-        illustrationType: 'check-breathing',
-        choices: [
-          { text: '✅ A pessoa voltou a respirar', nextStepId: 5, variant: 'secondary' },
-          { text: '❌ A pessoa continua sem respirar', nextStepId: 3, variant: 'destructive' },
-        ],
-      },
-      {
-        id: 3,
-        title: 'Iniciar Massagem Cardíaca (RCP)',
-        mainInstruction: 'Coloque as mãos no centro do peito da vítima e pressione com força.',
-        detailedText:
-          'Entrelace os dedos, mantenha os braços esticados. 100 a 120 compressões por minuto.',
-        illustrationType: 'cpr-hands',
-        hasRhythmMetronome: true,
-        rhythmBpm: 110,
-      },
-      {
-        id: 4,
-        title: 'Manter o ritmo sem interromper',
-        mainInstruction: 'Continue as compressões firmes até a chegada do socorro.',
-        detailedText:
-          'Pressione 5 a 6 cm de profundidade. Troque a cada 2 minutos se houver outra pessoa.',
-        illustrationType: 'cpr-rhythm',
-        hasRhythmMetronome: true,
-        rhythmBpm: 110,
-        isFinal: true,
-      },
-      {
-        id: 5,
-        title: 'Posição Lateral de Segurança',
-        mainInstruction: 'Vire a pessoa de lado se ela estiver respirando e inconsciente.',
-        detailedText: 'Isso evita engasgo com saliva ou vômito enquanto aguarda a equipe médica.',
-        illustrationType: 'recovery-position',
-        isFinal: true,
-      },
+    "sources": [
+      "bls",
+      "firstaid"
     ],
+    "emoji": "",
+    "isCoreOffline": false,
+    "audience": "Adultos e adolescentes com sinais de puberdade",
+    "keywords": [
+      "inconsciente",
+      "desacordado"
+    ]
   },
-  engasgo: {
-    id: 'engasgo',
-    title: 'Engasgo',
-    emoji: '😮',
-    summary: 'Vítima sufocada por alimento ou objeto.',
-    urgencyLevel: 'critica',
-    isCoreOffline: true,
-    initialAlert: 'Verifique se a pessoa consegue tossir ou falar!',
-    steps: [
+  "sem-respirar": {
+    "id": "sem-respirar",
+    "title": "Não respira normalmente",
+    "summary": "Sem respirar ou apenas com suspiros irregulares.",
+    "urgencyLevel": "critica",
+    "initialAlert": "Sem resposta e sem respiração normal: ligue 192 e inicie RCP.",
+    "steps": [
       {
-        id: 1,
-        title: 'Avaliar gravidade do engasgo',
-        mainInstruction: 'Pergunte: "Você está engasgado?" Observe se ela emite som.',
-        detailedText:
-          'Se conseguir tossir ou falar, incentive a tossir. Não dê tapas enquanto tossir.',
-        illustrationType: 'choking-check',
-        warningNote: 'Não dê tapas nas costas enquanto a pessoa conseguir tossir.',
-        choices: [
-          { text: '✅ Consegue tossir ou falar', nextStepId: 2, variant: 'secondary' },
-          { text: '❌ Não consegue emitir som', nextStepId: 3, variant: 'destructive' },
-        ],
+        "id": 1,
+        "title": "Segurança e pedido de ajuda",
+        "mainInstruction": "Verifique o local e ligue 192 no viva-voz.",
+        "detailedText": "Não entre em área com trânsito, fogo ou eletricidade. Peça a alguém para buscar um DEA. Este guia de compressões é para adultos e adolescentes com sinais de puberdade. Para bebês e crianças, use o guia infantil.",
+        "illustrationType": "default",
+        "relatedProtocol": "emergencia-bebe"
       },
       {
-        id: 2,
-        title: 'Incentivar a tosse',
-        mainInstruction: 'Permaneça ao lado e encoraje a tossir com força.',
-        detailedText: 'A tosse é a forma mais eficaz de expelir o objeto. Mantenha a pessoa em pé.',
-        illustrationType: 'encourage-coughing',
-        isFinal: true,
+        "id": 2,
+        "title": "A pessoa responde?",
+        "mainInstruction": "Chame em voz alta e toque nos ombros, sem sacudir.",
+        "detailedText": "Se não reagir, avalie rapidamente a respiração. Leigos não precisam procurar pulso.",
+        "illustrationType": "default",
+        "choices": [
+          {
+            "text": "Não responde",
+            "nextStepId": 3
+          },
+          {
+            "text": "Responde",
+            "nextStepId": 6
+          }
+        ]
       },
       {
-        id: 3,
-        title: 'Manobra de Heimlich',
-        mainInstruction: 'Fique atrás da pessoa, envolva a cintura com seus braços.',
-        detailedText:
-          'Feche uma mão em punho logo acima do umbigo. Segure o punho e pressione para dentro e para cima em "J".',
-        illustrationType: 'heimlich-maneuver',
-        warningNote:
-          'Se a pessoa perder a consciência, deite-a no chão e inicie compressões cardíacas.',
+        "id": 3,
+        "title": "A respiração é normal?",
+        "mainInstruction": "Observe o peito por no máximo 10 segundos.",
+        "detailedText": "Suspiros espaçados, roncos ou respiração em suspiros irregulares não são respiração normal. Se não responde e não respira normalmente, trate como parada cardíaca.",
+        "illustrationType": "default",
+        "choices": [
+          {
+            "text": "Não respira normalmente ou tenho dúvida",
+            "nextStepId": 4
+          },
+          {
+            "text": "Respira normalmente",
+            "nextStepId": 5
+          }
+        ]
       },
       {
-        id: 4,
-        title: 'Repetir as compressões',
-        mainInstruction: 'Faça o movimento vigoroso até o objeto sair.',
-        detailedText: 'Continue as compressões abdominais. Se não funcionar, ligue 192.',
-        illustrationType: 'back-blows',
-        isFinal: true,
+        "id": 4,
+        "title": "Comece as compressões",
+        "mainInstruction": "Comprima o centro do peito, forte e rápido.",
+        "detailedText": "Deite o adulto de costas em superfície firme. Coloque uma mão sobre a outra na metade inferior do osso no centro do peito, com braços esticados. Comprima de 5 a 6 cm, 100 a 120 vezes por minuto, deixando o peito voltar entre compressões. Se não souber ventilar, faça compressões contínuas. Se treinado e disposto, alterne 30 compressões e 2 ventilações.",
+        "illustrationType": "default",
+        "hasRhythmMetronome": true,
+        "rhythmBpm": 110,
+        "isFinal": true,
+        "warningNote": "Peça um DEA. Ligue e siga seus comandos; ninguém deve tocar na pessoa durante análise ou choque. Retome imediatamente as compressões após a orientação do aparelho. Continue até a equipe assumir, a pessoa voltar a respirar normalmente, o local ficar inseguro ou você não conseguir mais."
       },
+      {
+        "id": 5,
+        "title": "Acompanhe a respiração",
+        "mainInstruction": "Se está inconsciente e respira normalmente, mantenha as passagem de ar livre.",
+        "detailedText": "Sem suspeita de trauma, coloque de lado. Se houver queda, acidente ou suspeita de lesão na coluna, evite movimentar e siga o SAMU; a abertura das vias aéreas tem prioridade. Observe continuamente a respiração. Se parar ou ficar em suspiros irregulares, inicie RCP.",
+        "illustrationType": "default",
+        "isFinal": true,
+        "relatedProtocol": "parada-cardiaca"
+      },
+      {
+        "id": 6,
+        "title": "Mantenha a pessoa acompanhada",
+        "mainInstruction": "Deixe a pessoa na posição em que respira melhor.",
+        "detailedText": "Informe os sintomas ao SAMU. Não ofereça alimentos, líquidos ou medicamentos. Se ela perder a resposta, reavalie imediatamente a respiração.",
+        "illustrationType": "default",
+        "isFinal": true
+      }
     ],
-  },
-  sangramento: {
-    id: 'sangramento',
-    title: 'Sangramento intenso',
-    emoji: '🩸',
-    summary: 'Corte profundo ou ferida expelindo muito sangue.',
-    urgencyLevel: 'alta',
-    isCoreOffline: true,
-    initialAlert: 'Ligue 192 e proteja suas mãos se possível!',
-    steps: [
-      {
-        id: 1,
-        title: 'Pressão direta sobre a ferida',
-        mainInstruction: 'Pressione pano limpo ou gaze diretamente sobre o ferimento.',
-        detailedText: 'Aplique força constante e firme. Use luvas ou saco plástico para proteção.',
-        illustrationType: 'pressure-wound',
-      },
-      {
-        id: 2,
-        title: 'Manter a pressão',
-        mainInstruction: 'Não retire o pano mesmo que fique encharcado.',
-        detailedText:
-          'Coloque outro pano por cima e continue pressionando. Remover destrói os coágulos.',
-        illustrationType: 'maintain-pressure',
-      },
-      {
-        id: 3,
-        title: 'Elevar o membro ferido',
-        mainInstruction: 'Se for no braço ou perna sem fratura, eleve acima do coração.',
-        detailedText: 'A elevação diminui o fluxo de sangue no local lesionado.',
-        illustrationType: 'elevate-limb',
-      },
-      {
-        id: 4,
-        title: 'Acalmar e aquecer a vítima',
-        mainInstruction: 'Mantenha a pessoa deitada e aquecida até a ajuda chegar.',
-        detailedText: 'Grandes perdas de sangue causam choque. Cubra com manta e converse.',
-        illustrationType: 'warm-victim',
-        isFinal: true,
-      },
+    "sources": [
+      "bls"
     ],
+    "emoji": "",
+    "isCoreOffline": false,
+    "audience": "Adultos e adolescentes com sinais de puberdade",
+    "keywords": [
+      "respiracao",
+      "sufocamento",
+      "falta de ar"
+    ]
   },
-  queimadura: {
-    id: 'queimadura',
-    title: 'Queimadura',
-    emoji: '🔥',
-    summary: 'Lesão por fogo, líquido quente, químicos ou superfícies aquecidas.',
-    urgencyLevel: 'alta',
-    isCoreOffline: true,
-    initialAlert: 'Interrompa o contato com a fonte de calor!',
-    steps: [
+  "parada-cardiaca": {
+    "id": "parada-cardiaca",
+    "title": "Parada cardíaca · RCP",
+    "summary": "Reconheça os sinais e comece as compressões.",
+    "urgencyLevel": "critica",
+    "initialAlert": "Peça ajuda, ligue 192 no viva-voz e peça um DEA.",
+    "steps": [
       {
-        id: 1,
-        title: 'Resfriar com água corrente',
-        mainInstruction: 'Lave o local com água fria da torneira por 10 a 15 minutos.',
-        detailedText:
-          'NÃO use gelo, pasta de dente, manteiga ou pó de café. Apenas água em temperatura ambiente.',
-        illustrationType: 'cool-water',
-        warningNote: 'NÃO use gelo ou produtos caseiros na queimadura.',
+        "id": 1,
+        "title": "Segurança e pedido de ajuda",
+        "mainInstruction": "Verifique o local e ligue 192 no viva-voz.",
+        "detailedText": "Não entre em área com trânsito, fogo ou eletricidade. Peça a alguém para buscar um DEA. Este guia de compressões é para adultos e adolescentes com sinais de puberdade. Para bebês e crianças, use o guia infantil.",
+        "illustrationType": "default",
+        "relatedProtocol": "emergencia-bebe"
       },
       {
-        id: 2,
-        title: 'Remover objetos próximos',
-        mainInstruction: 'Retire anéis, pulseiras ou relógios perto do local afetado.',
-        detailedText: 'Faça isso antes que a região inche. NÃO retire roupas grudadas na pele.',
-        illustrationType: 'remove-jewelry',
+        "id": 2,
+        "title": "A pessoa responde?",
+        "mainInstruction": "Chame em voz alta e toque nos ombros, sem sacudir.",
+        "detailedText": "Se não reagir, avalie rapidamente a respiração. Leigos não precisam procurar pulso.",
+        "illustrationType": "default",
+        "choices": [
+          {
+            "text": "Não responde",
+            "nextStepId": 3
+          },
+          {
+            "text": "Responde",
+            "nextStepId": 6
+          }
+        ]
       },
       {
-        id: 3,
-        title: 'Proteger o ferimento',
-        mainInstruction: 'Proteja a área com pano limpo e seco, sem apertar.',
-        detailedText: 'NÃO fure bolhas. Bolhas estouradas viram porta de entrada para infecções.',
-        illustrationType: 'protect-wound',
-        isFinal: true,
+        "id": 3,
+        "title": "A respiração é normal?",
+        "mainInstruction": "Observe o peito por no máximo 10 segundos.",
+        "detailedText": "Suspiros espaçados, roncos ou respiração em suspiros irregulares não são respiração normal. Se não responde e não respira normalmente, trate como parada cardíaca.",
+        "illustrationType": "default",
+        "choices": [
+          {
+            "text": "Não respira normalmente ou tenho dúvida",
+            "nextStepId": 4
+          },
+          {
+            "text": "Respira normalmente",
+            "nextStepId": 5
+          }
+        ]
       },
+      {
+        "id": 4,
+        "title": "Comece as compressões",
+        "mainInstruction": "Comprima o centro do peito, forte e rápido.",
+        "detailedText": "Deite o adulto de costas em superfície firme. Coloque uma mão sobre a outra na metade inferior do osso no centro do peito, com braços esticados. Comprima de 5 a 6 cm, 100 a 120 vezes por minuto, deixando o peito voltar entre compressões. Se não souber ventilar, faça compressões contínuas. Se treinado e disposto, alterne 30 compressões e 2 ventilações.",
+        "illustrationType": "default",
+        "hasRhythmMetronome": true,
+        "rhythmBpm": 110,
+        "isFinal": true,
+        "warningNote": "Peça um DEA. Ligue e siga seus comandos; ninguém deve tocar na pessoa durante análise ou choque. Retome imediatamente as compressões após a orientação do aparelho. Continue até a equipe assumir, a pessoa voltar a respirar normalmente, o local ficar inseguro ou você não conseguir mais."
+      },
+      {
+        "id": 5,
+        "title": "Acompanhe a respiração",
+        "mainInstruction": "Se está inconsciente e respira normalmente, mantenha as passagem de ar livre.",
+        "detailedText": "Sem suspeita de trauma, coloque de lado. Se houver queda, acidente ou suspeita de lesão na coluna, evite movimentar e siga o SAMU; a abertura das vias aéreas tem prioridade. Observe continuamente a respiração. Se parar ou ficar em suspiros irregulares, inicie RCP.",
+        "illustrationType": "default",
+        "isFinal": true,
+        "relatedProtocol": "parada-cardiaca"
+      },
+      {
+        "id": 6,
+        "title": "Mantenha a pessoa acompanhada",
+        "mainInstruction": "Deixe a pessoa na posição em que respira melhor.",
+        "detailedText": "Informe os sintomas ao SAMU. Não ofereça alimentos, líquidos ou medicamentos. Se ela perder a resposta, reavalie imediatamente a respiração.",
+        "illustrationType": "default",
+        "isFinal": true
+      }
     ],
-  },
-  'parada-cardiaca': {
-    id: 'parada-cardiaca',
-    title: 'Parada cardíaca',
-    emoji: '❤️',
-    summary: 'Ausência de pulso, pessoa desmaiada que não responde nem respira.',
-    urgencyLevel: 'critica',
-    isCoreOffline: true,
-    initialAlert: 'Ligue 192 (SAMU) e peça um DEA se houver por perto!',
-    steps: [
-      {
-        id: 1,
-        title: 'Confirmar inconsciência',
-        mainInstruction: 'Chame a pessoa alto e sacuda suavemente pelos ombros.',
-        detailedText:
-          'Se não reagir nem respirar, é gravíssimo. Peça a alguém para ligar 192 e buscar um DEA.',
-        illustrationType: 'check-response',
-      },
-      {
-        id: 2,
-        title: 'Posicionamento das mãos',
-        mainInstruction: 'Coloque o calcanhar de uma mão no centro do peito (esterno).',
-        detailedText:
-          'Sobreponha a outra mão e entrelace os dedos. Cotovelos esticados, ombros alinhados.',
-        illustrationType: 'hand-placement',
-      },
-      {
-        id: 3,
-        title: 'Compressões com ritmo',
-        mainInstruction: 'Pressione afundando 5 a 6 cm no ritmo de 100-120 compressões por minuto.',
-        detailedText: 'Use o metrônomo abaixo para seguir o tempo exato.',
-        illustrationType: 'cpr-rhythm',
-        hasRhythmMetronome: true,
-        rhythmBpm: 110,
-      },
-      {
-        id: 4,
-        title: 'Uso do Desfibrilador (DEA)',
-        mainInstruction: 'Assim que o DEA chegar, ligue o aparelho e siga os comandos de voz.',
-        detailedText: 'Cole os adesivos no peito nu. Afaste-se quando o aparelho mandar analisar.',
-        illustrationType: 'aed-device',
-        isFinal: true,
-      },
+    "sources": [
+      "bls"
     ],
+    "emoji": "",
+    "isCoreOffline": false,
+    "audience": "Adultos e adolescentes com sinais de puberdade"
   },
-  'choque-eletrico': {
-    id: 'choque-eletrico',
-    title: 'Choque elétrico',
-    emoji: '⚡',
-    summary: 'Contato com fios desencapados, tomadas ou descargas elétricas.',
-    urgencyLevel: 'critica',
-    isCoreOffline: false,
-    initialAlert: 'NÃO TOQUE NA VÍTIMA até interromper a corrente elétrica!',
-    steps: [
+  "engasgo": {
+    "id": "engasgo",
+    "title": "Engasgo",
+    "summary": "Dificuldade súbita para falar, tossir ou respirar.",
+    "urgencyLevel": "critica",
+    "initialAlert": "Se não consegue tossir com força, falar ou respirar, peça para ligar 192.",
+    "steps": [
       {
-        id: 1,
-        title: 'Desligar a fonte de energia',
-        mainInstruction: 'Desligue o disjuntor geral ou retire o aparelho da tomada.',
-        detailedText:
-          'Tocar na pessoa enquanto ela estiver em contato com a corrente fará você ser eletrocutado também.',
-        illustrationType: 'circuit-breaker',
-        warningNote: 'NUNCA toque na vítima antes de desligar a energia.',
+        "id": 1,
+        "title": "A pessoa consegue tossir?",
+        "mainInstruction": "Observe se a tosse é forte e se consegue falar.",
+        "detailedText": "Este guia é para adultos e crianças a partir de 1 ano. Para menores de 1 ano, abra o guia infantil.",
+        "illustrationType": "default",
+        "relatedProtocol": "emergencia-bebe",
+        "choices": [
+          {
+            "text": "Tosse forte e consegue falar",
+            "nextStepId": 2
+          },
+          {
+            "text": "Tosse fraca, não fala ou não respira",
+            "nextStepId": 3
+          }
+        ]
       },
       {
-        id: 2,
-        title: 'Afastar o fio com objeto isolante',
-        mainInstruction: 'Use cabo de vassoura de madeira ou plástico para afastar o fio.',
-        detailedText:
-          'Nunca use objetos metálicos nem materiais molhados. Fique sobre superfície seca.',
-        illustrationType: 'insulating-object',
+        "id": 2,
+        "title": "Deixe tossir",
+        "mainInstruction": "Incentive a tosse e fique junto da pessoa.",
+        "detailedText": "Não dê golpes enquanto a tosse for eficaz. Não ofereça água nem coloque dedos na boca. Se a tosse ficar fraca ou ela não conseguir falar, passe ao atendimento do engasgo grave.",
+        "illustrationType": "default",
+        "choices": [
+          {
+            "text": "Piorou: não consegue tossir ou falar",
+            "nextStepId": 3
+          },
+          {
+            "text": "Objeto saiu e respira bem",
+            "nextStepId": 5
+          }
+        ]
       },
       {
-        id: 3,
-        title: 'Avaliar a vítima',
-        mainInstruction: 'Verifique se a pessoa responde e se está respirando.',
-        detailedText:
-          'Choques graves podem causar parada cardíaca. Se inconsciente e sem respirar, inicie RCP.',
-        illustrationType: 'check-victim-electric',
-        isFinal: true,
+        "id": 3,
+        "title": "Alterne 5 golpes e 5 compressões",
+        "mainInstruction": "Incline a pessoa para a frente e dê 5 golpes na parte alta das costas, entre as omoplatas.",
+        "detailedText": "Use a base da mão. Depois, por trás, posicione um punho acima do umbigo e abaixo do osso do peito, segure com a outra mão e faça 5 compressões para dentro e para cima. Repita os ciclos enquanto estiver consciente e obstruída. Pare assim que o objeto sair.",
+        "illustrationType": "default",
+        "warningNote": "Na gestação avançada ou se não conseguir envolver o abdome, use 5 compressões no tórax em vez do abdome, alternadas com 5 golpes nas costas.",
+        "choices": [
+          {
+            "text": "Perdeu a consciência",
+            "nextStepId": 4
+          },
+          {
+            "text": "Objeto saiu e respira bem",
+            "nextStepId": 5
+          }
+        ]
       },
+      {
+        "id": 4,
+        "title": "Se perder a consciência",
+        "mainInstruction": "Apoie a pessoa no chão, peça um DEA e inicie RCP.",
+        "detailedText": "Não continue manobras de engasgo em pé. Se treinado, antes das ventilações olhe a boca e retire somente objeto claramente visível. Não faça varredura às cegas. Para criança sem puberdade, siga o guia infantil.",
+        "illustrationType": "default",
+        "isFinal": true,
+        "relatedProtocol": "parada-cardiaca"
+      },
+      {
+        "id": 5,
+        "title": "Depois que o objeto sair",
+        "mainInstruction": "Observe se a respiração voltou ao normal.",
+        "detailedText": "Após compressões abdominais ou torácicas, procure avaliação médica. Dor, tosse persistente, dificuldade para engolir ou respirar exigem atendimento imediato.",
+        "illustrationType": "default",
+        "isFinal": true
+      }
     ],
-  },
-  convulsao: {
-    id: 'convulsao',
-    title: 'Convulsão',
-    emoji: '🧠',
-    summary: 'Tremores involuntários violentos, olhos virados, perda de consciência.',
-    urgencyLevel: 'alta',
-    isCoreOffline: true,
-    initialAlert: 'NÃO segure os braços e NUNCA coloque nada na boca!',
-    steps: [
-      {
-        id: 1,
-        title: 'Proteger a cabeça da vítima',
-        mainInstruction: 'Coloque um casaco dobrado ou almofada debaixo da cabeça.',
-        detailedText: 'Remova móveis ou objetos pontiagudos ao redor para evitar batidas.',
-        illustrationType: 'protect-head',
-        warningNote: 'NUNCA coloque nada dentro da boca da pessoa.',
-      },
-      {
-        id: 2,
-        title: 'Liberar vias aéreas e roupas',
-        mainInstruction: 'Afrouxe gravatas, golas apertadas ou cintos.',
-        detailedText: 'Deixe os tremores acontecerem naturalmente. NÃO tente conter os movimentos.',
-        illustrationType: 'loosen-clothes',
-      },
-      {
-        id: 3,
-        title: 'Virar de lado ao final',
-        mainInstruction: 'Assim que os tremores pararem, vire a pessoa suavemente de lado.',
-        detailedText:
-          'Isso evita engasgo com saliva ou sangue. Permaneça até que recobre a consciência.',
-        illustrationType: 'turn-side',
-        isFinal: true,
-      },
+    "sources": [
+      "bls",
+      "pediatric"
     ],
+    "emoji": "",
+    "isCoreOffline": false,
+    "audience": "Adultos e crianças a partir de 1 ano",
+    "keywords": [
+      "engasgado",
+      "engasgou",
+      "comida",
+      "sufocado"
+    ]
   },
+  "sangramento": {
+    "id": "sangramento",
+    "title": "Sangramento intenso",
+    "summary": "Muito sangue, jatos ou roupa rapidamente encharcada.",
+    "urgencyLevel": "critica",
+    "initialAlert": "Ligue 192. Pressione o ferimento sem esperar.",
+    "steps": [
+      {
+        "id": 1,
+        "title": "Faça pressão direta",
+        "mainInstruction": "Use gaze ou pano limpo e pressione com firmeza.",
+        "detailedText": "Proteja suas mãos com luvas, se disponíveis. Não retire objetos cravados: pressione ao redor deles. Não pressione diretamente sobre o olho.",
+        "illustrationType": "default"
+      },
+      {
+        "id": 2,
+        "title": "Mantenha a pressão",
+        "mainInstruction": "Não levante o primeiro pano para conferir a ferida.",
+        "detailedText": "Se necessário, acrescente outro pano sem interromper a pressão. Não perca tempo elevando o membro. Sangramento que não cessa precisa de ajuda imediata.",
+        "illustrationType": "default"
+      },
+      {
+        "id": 3,
+        "title": "Sangramento de membro que não para",
+        "mainInstruction": "Se houver torniquete comercial e você souber usá-lo, aplique conforme o treinamento.",
+        "detailedText": "Use em braço ou perna com hemorragia que ameaça a vida, acima da ferida e não sobre uma articulação. Aperte até cessar o sangramento, anote o horário e não afrouxe. Se não tiver treinamento, mantenha pressão e siga o SAMU.",
+        "illustrationType": "default",
+        "warningNote": "Não improvise com fios ou cordas finas. Não use torniquete no pescoço ou tronco."
+      },
+      {
+        "id": 4,
+        "title": "Aguarde com a pessoa",
+        "mainInstruction": "Mantenha-a aquecida e observe a respiração.",
+        "detailedText": "Deite se tolerado e sem piorar a respiração. Não dê comida ou bebida. Se perder a resposta e não respirar normalmente, comece RCP.",
+        "illustrationType": "default",
+        "isFinal": true,
+        "relatedProtocol": "parada-cardiaca"
+      }
+    ],
+    "sources": [
+      "firstaid"
+    ],
+    "emoji": "",
+    "isCoreOffline": false
+  },
+  "queimadura": {
+    "id": "queimadura",
+    "title": "Queimadura",
+    "summary": "Contato com calor, líquidos quentes ou superfícies.",
+    "urgencyLevel": "alta",
+    "initialAlert": "Afaste a fonte de calor com segurança. Queimadura grave: ligue 192.",
+    "steps": [
+      {
+        "id": 1,
+        "title": "Resfrie a área",
+        "mainInstruction": "Use água corrente limpa, fresca, por 20 minutos.",
+        "detailedText": "Resfrie a queimadura térmica, mantendo o restante do corpo aquecido, especialmente em crianças. Retire anéis e acessórios antes do inchaço, sem atrasar o resfriamento.",
+        "illustrationType": "default",
+        "warningNote": "Não use gelo, pasta de dente, manteiga, pomadas caseiras ou café. Não arranque roupa grudada."
+      },
+      {
+        "id": 2,
+        "title": "Proteja sem apertar",
+        "mainInstruction": "Cubra com gaze ou pano limpo que não solte fibras.",
+        "detailedText": "Não fure bolhas. Procure atendimento em queimaduras profundas, extensas, circulares, na face, mãos, genitais ou articulações, e em crianças pequenas.",
+        "illustrationType": "default"
+      },
+      {
+        "id": 3,
+        "title": "Químicos, eletricidade ou fumaça",
+        "mainInstruction": "Essas situações precisam de avaliação urgente.",
+        "detailedText": "Não toque em fontes elétricas. Em produto químico, proteja-se, retire roupa contaminada sem espalhar o produto e siga o serviço de emergência e o rótulo; pó seco deve ser removido com cuidado antes da irrigação quando seguro. Falta de ar, rouquidão ou exposição à fumaça: ligue 192.",
+        "illustrationType": "default",
+        "isFinal": true,
+        "relatedProtocol": "choque-eletrico"
+      }
+    ],
+    "sources": [
+      "firstaid",
+      "samu"
+    ],
+    "emoji": "",
+    "isCoreOffline": false
+  },
+  "choque-eletrico": {
+    "id": "choque-eletrico",
+    "title": "Choque elétrico",
+    "summary": "Contato com tomada, equipemento ou fio energizado.",
+    "urgencyLevel": "critica",
+    "initialAlert": "Não toque na pessoa nem no fio. Ligue 193 e 192.",
+    "steps": [
+      {
+        "id": 1,
+        "title": "Interrompa a energia apenas se seguro",
+        "mainInstruction": "Desligue o disjuntor sem entrar em água ou se aproximar da fonte.",
+        "detailedText": "Se houver fio de rua caído, alta tensão, água ou dúvida, afaste-se e impeça a aproximação. Aguarde os Bombeiros e a concessionária.",
+        "illustrationType": "default",
+        "warningNote": "Não tente afastar fios com vassoura, madeira ou plástico. Podem conduzir eletricidade."
+      },
+      {
+        "id": 2,
+        "title": "Só se aproxime após liberação",
+        "mainInstruction": "Com a energia confirmadamente desligada, verifique resposta e respiração.",
+        "detailedText": "Se não responde e não respira normalmente, inicie RCP e peça um DEA. Não se aproxime de alta tensão até liberação da equipe.",
+        "illustrationType": "default",
+        "relatedProtocol": "parada-cardiaca"
+      },
+      {
+        "id": 3,
+        "title": "Busque avaliação",
+        "mainInstruction": "Mantenha a pessoa acompanhada até o atendimento.",
+        "detailedText": "Lesões internas e alterações do ritmo cardíaco podem ocorrer mesmo sem queimadura aparente. Não aplique produtos nas queimaduras.",
+        "illustrationType": "default",
+        "isFinal": true
+      }
+    ],
+    "sources": [
+      "samu"
+    ],
+    "emoji": "",
+    "isCoreOffline": false
+  },
+  "convulsao": {
+    "id": "convulsao",
+    "title": "Convulsão",
+    "summary": "Movimentos involuntários e possível perda de consciência.",
+    "urgencyLevel": "alta",
+    "initialAlert": "Proteja a cabeça. Não segure a pessoa nem coloque nada na boca.",
+    "steps": [
+      {
+        "id": 1,
+        "title": "Proteja e marque o horário",
+        "mainInstruction": "Afaste objetos perigosos e coloque algo macio sob a cabeça.",
+        "detailedText": "Não contenha os movimentos. Não dê líquidos ou medicamentos pela boca. Afrouxe roupas apertadas no pescoço.",
+        "illustrationType": "default"
+      },
+      {
+        "id": 2,
+        "title": "Saiba quando chamar o SAMU",
+        "mainInstruction": "Ligue 192 se durar 5 minutos ou mais, repetir sem recuperação ou for a primeira crise.",
+        "detailedText": "Também acione ajuda se houver dificuldade para respirar, ferimento, crise na água, gravidez, bebê menor de 6 meses ou se não recuperar o estado habitual após a crise. Na dúvida, ligue.",
+        "illustrationType": "default"
+      },
+      {
+        "id": 3,
+        "title": "Depois dos movimentos",
+        "mainInstruction": "Verifique a respiração e permaneça com a pessoa.",
+        "detailedText": "Se inconsciente e respirando normalmente, coloque de lado se não houver suspeita de trauma. Sem respiração normal, inicie RCP. Explique com calma o que aconteceu quando ela despertar.",
+        "illustrationType": "default",
+        "isFinal": true,
+        "relatedProtocol": "parada-cardiaca"
+      }
+    ],
+    "sources": [
+      "firstaid"
+    ],
+    "emoji": "",
+    "isCoreOffline": false
+  }
 }
