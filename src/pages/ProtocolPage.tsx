@@ -7,6 +7,7 @@ import { useSpeech } from '@/hooks/use-speech'
 import { VoiceAssistantBar } from '@/components/VoiceAssistantBar'
 import { ProtocolIcon } from '@/components/ProtocolIcon'
 import { RhythmGuide } from '@/components/RhythmGuide'
+import { ActionIllustration } from '@/components/ActionIllustration'
 import { guidanceSpeech, nextStepIndex } from '@/lib/protocol-navigation'
 import { SOURCES } from '@/data/sources'
 
@@ -66,8 +67,9 @@ function Guide({ id }: { id: string }) {
       <div className="guide-alert"><Phone size={22}/><span>{protocol.initialAlert}</span><button onClick={() => { stopSpeaking(); stopListening(); setEmergencyNumbersOpen(true) }}>Pedir ajuda <ArrowUpRightIcon/></button></div>
       <div className="guide-heading"><span className="protocol-icon critical"><ProtocolIcon id={id}/></span><div><p className="eyebrow">ORIENTAÇÃO PASSO A PASSO</p><h1>{protocol.title}</h1>{protocol.audience && <p>{protocol.audience}</p>}</div></div>
       <article className="step-panel"><div className="step-meta"><span>ETAPA {String(index + 1).padStart(2, '0')}</span><span>{step.choices ? 'Observe antes de escolher' : final ? 'Mantenha os cuidados' : 'Uma ação de cada vez'}</span></div>
-        <h2 ref={heading} tabIndex={-1}>{step.title}</h2><p className="main-instruction">{step.mainInstruction}</p><p className="step-detail">{step.detailedText}</p>
+        <h2 ref={heading} tabIndex={-1}>{step.title}</h2><p className="main-instruction">{step.mainInstruction}</p><ul className="step-detail step-checklist">{step.detailedText.split(/(?<=[.!?])\s+/).map((instruction, i) => <li key={i}>{instruction}</li>)}</ul>
         {step.warningNote && <div className="warning-note"><AlertTriangle size={21}/><p>{step.warningNote}</p></div>}
+        <ActionIllustration key={`illustration-${id}-${step.id}`} protocolId={id} stepId={step.id}/>
         {step.hasRhythmMetronome && <RhythmGuide key={`${id}-${step.id}`}/>}
         {step.relatedProtocol && <Link className="related-guide" to={`/emergencia/${step.relatedProtocol}`}>Abrir: {PROTOCOLS[step.relatedProtocol]?.title} <ArrowRight size={17}/></Link>}
         {pendingChoice !== null && step.choices?.[pendingChoice] && <div className="choice-confirm" role="alert"><p>Você escolheu por voz: <strong>{step.choices[pendingChoice].text}</strong></p><button className="button button-red small" onClick={() => next(step.choices![pendingChoice].nextStepId)}>Confirmar escolha</button><button className="button small" onClick={() => setPendingChoice(null)}>Cancelar</button></div>}
