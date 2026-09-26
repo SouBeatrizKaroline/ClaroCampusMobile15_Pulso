@@ -1,0 +1,19 @@
+{
+  "short_name": "SOS Socorros",
+  "name": "PULSO - SOS Primeiros Socorros Inteligentes",
+  "description": "Plataforma de primeiros socorros inteligente, acessível e 100% offline com instruções passo a passo e comandos de voz.",
+  "icons": [
+    {
+      "src": "/og-image.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "lang": "pt-BR"
+}

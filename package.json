@@ -2,7 +2,7 @@
   "name": "pulso-primeiros-socorros",
   "description": "Orientações acessíveis de primeiros socorros, com leitura e navegação por voz em português.",
   "private": true,
-  "version": "0.0.10",
+  "version": "0.0.12",
   "type": "module",
   "scripts": {
     "start": "vite dev",

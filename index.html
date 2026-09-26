@@ -15,6 +15,7 @@
     <meta property="og:description" content="Primeiros socorros, um passo de cada vez. Orientações para ler e ouvir, com acesso rápido ao SAMU e aos Bombeiros." />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:type" content="website" />
+    <link rel="manifest" href="/manifest.json" />
     <meta property="og:image" content="/og-image.png" />
   </head>
 
@@ -22,5 +23,12 @@
     <div id="root"></div>
     <!-- @skip-protected: Do not remove. App entrypoint. -->
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>
