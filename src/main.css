@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 20 14.3% 4.1%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+
+    --primary: 354 70% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 24 5.9% 90%;
+    --secondary-foreground: 24 9.8% 10%;
+
+    --muted: 24 5.9% 90%;
+    --muted-foreground: 25 5.3% 45%;
+
+    --accent: 24 5.9% 90%;
+    --accent-foreground: 24 9.8% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 354 70% 50%;
+
+    --radius: 0.75rem;
+  }
+
+  /* High contrast emergency mode override */
+  html.emergency-mode {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+    --border: 0 0% 30%;
+    --primary: 48 96% 53%;
+    --primary-foreground: 0 0% 0%;
+  }
+
+  html.large-text {
+    font-size: 115%;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+}

@@ -1,220 +1,131 @@
-# ❤️ PULSO
+# Projeto Criado com o Skip
 
-## Primeiros Socorros Inteligentes
+Este projeto foi criado de ponta a ponta com o [Skip](https://goskip.dev).
 
-<h3 align="center">
-  Quando cada segundo importa, o Pulso guia o primeiro cuidado.
-</h3>
+## 🚀 Stack Tecnológica
 
-<p align="center">
-  Uma interface digital criada para tornar o acesso aos primeiros socorros mais simples, rápido e acessível.
-</p>
+- **React 19** - Biblioteca JavaScript para construção de interfaces
+- **Vite** - Build tool extremamente rápida
+- **TypeScript** - Superset tipado do JavaScript
+- **Shadcn UI** - Componentes reutilizáveis e acessíveis
+- **Tailwind CSS** - Framework CSS utility-first
+- **React Router** - Roteamento para aplicações React
+- **React Hook Form** - Gerenciamento de formulários performático
+- **Zod** - Validação de schemas TypeScript-first
+- **Recharts** - Biblioteca de gráficos para React
 
-<p align="center">
-  🚧 Projeto em desenvolvimento — MVP Interface Inicial
-</p>
+## 📋 Pré-requisitos
 
----
+- Node.js 18+
+- npm
 
-# 🚨 Sobre o Projeto
+## 🔧 Instalação
 
-O **PULSO — Primeiros Socorros Inteligentes** é uma plataforma digital criada com o objetivo de orientar pessoas durante situações de emergência.
-
-A ideia nasceu de uma pergunta simples:
-
-> "Se algo acontecer agora, eu sei o que fazer?"
-
-Em momentos críticos, muitas pessoas entram em pânico ou não sabem qual atitude tomar.
-
-O Pulso busca transformar conhecimento em ação através de uma experiência simples, visual e intuitiva.
-
----
-
-# ⏱️ Primeiro Minuto
-
-## O modo emergência do Pulso
-
-O **Primeiro Minuto** será o principal recurso da plataforma no futuro.
-
-Uma área criada para momentos em que cada segundo importa.
-
-A proposta:
-
-```
-🚨 Identificar a situação
-        ↓
-🧭 Receber orientação
-        ↓
-❤️ Realizar os primeiros cuidados
-        ↓
-📞 Buscar ajuda especializada
+```bash
+npm install
 ```
 
----
+## 💻 Scripts Disponíveis
 
-# 🎨 Versão Atual
+### Desenvolvimento
 
-## Interface Inicial
-
-Atualmente o projeto conta com a primeira versão visual da plataforma.
-
-A interface inicial apresenta:
-
-✅ Identidade visual do Pulso
-✅ Tela principal de emergência
-✅ Organização das categorias de atendimento
-✅ Experiência pensada para acesso rápido
-✅ Design focado em clareza e simplicidade
-
----
-
-# 🖥️ Preview da Interface
-
-Adicionar imagens do projeto:
-
-```
-/assets/screenshots
-
-├── home.png
-├── emergencia.png
-└── categorias.png
+```bash
+# Iniciar servidor de desenvolvimento
+npm start
+# ou
+npm run dev
 ```
 
-Exemplo:
+Abre a aplicação em modo de desenvolvimento em [http://localhost:5173](http://localhost:5173).
 
-<p align="center">
-  <img src="assets/screenshots/home.png" width="700">
-</p>
+### Build
 
----
+```bash
+# Build para produção
+npm run build
 
-# 🧩 Conceito da Interface
-
-A experiência foi criada pensando em usuários que podem estar:
-
-* 😰 Nervosos
-* ⏰ Com pressa
-* ❓ Sem conhecimento técnico
-* 📱 Usando o celular em uma emergência
-
-Por isso, a interface prioriza:
-
-* Poucos elementos
-* Botões grandes
-* Navegação simples
-* Informações diretas
-
----
-
-# 🚀 Próximos Passos
-
-O projeto está sendo desenvolvido em etapas.
-
-## Fase 1 — Interface Inicial ✅
-
-* [x] Criação da identidade visual
-* [x] Estrutura inicial da plataforma
-* [x] Tela principal
-* [x] Categorias de emergência
-* [x] Design responsivo
-
----
-
-## Fase 2 — Interatividade
-
-Planejado:
-
-* [ ] Fluxos de orientação passo a passo
-* [ ] Protocolos de primeiros socorros
-* [ ] Animações educativas
-* [ ] Sistema de perguntas e respostas
-
----
-
-## Fase 3 — Recursos Inteligentes
-
-Planejado:
-
-* [ ] Pulso Voz (assistente de voz)
-* [ ] Orientação por áudio
-* [ ] Funcionamento offline
-* [ ] Aplicativo mobile
-* [ ] Integração com WhatsApp
-
----
-
-# 🛠️ Tecnologias
-
-A primeira versão utiliza:
-
-## Front-end
-
-* HTML5
-* CSS3
-* JavaScript
-
-Tecnologias futuras:
-
-* Node.js
-* PWA
-* APIs de voz
-* Aplicativo mobile
-
----
-
-# 📂 Estrutura Atual
-
-```
-PULSO/
-
-├── index.html
-
-├── css/
-│   └── style.css
-
-├── js/
-│   └── app.js
-
-├── assets/
-│   ├── imagens
-│   └── ícones
-
-└── README.md
+# Build para desenvolvimento
+npm run build:dev
 ```
 
----
+Gera os arquivos otimizados para produção na pasta `dist/`.
 
-# 🌱 Visão do Projeto
+### Preview
 
-O Pulso pretende evoluir para uma plataforma completa de primeiros socorros:
+```bash
+# Visualizar build de produção localmente
+npm run preview
+```
 
-❤️ **Pulso Emergência**
-Orientação rápida em situações críticas.
+Permite visualizar a build de produção localmente antes do deploy.
 
-🗣️ **Pulso Voz**
-Assistente inteligente por voz.
+### Linting e Formatação
 
-👁️ **Pulso Visual**
-Animações e demonstrações.
+```bash
+# Executar linter
+npm run lint
 
-📱 **Pulso Offline**
-Acesso mesmo sem internet.
+# Executar linter e corrigir problemas automaticamente
+npm run lint:fix
 
-🌎 **Pulso Acessível**
-Tecnologia para todos.
+# Formatar código com Oxfmt
+npm run format
+```
 
----
+## 📁 Estrutura do Projeto
 
-# ❤️ Missão
+```
+.
+├── src/              # Código fonte da aplicação
+├── public/           # Arquivos estáticos
+├── dist/             # Build de produção (gerado)
+├── node_modules/     # Dependências (gerado)
+└── package.json      # Configurações e dependências do projeto
+```
 
-Criar uma tecnologia capaz de aproximar conhecimento de primeiros socorros das pessoas, ajudando-as a agir melhor quando alguém precisar.
+## 🎨 Componentes UI
 
----
+Este template inclui uma biblioteca completa de componentes Shadcn UI baseados em Radix UI:
 
-<p align="center">
+- Accordion
+- Alert Dialog
+- Avatar
+- Button
+- Checkbox
+- Dialog
+- Dropdown Menu
+- Form
+- Input
+- Label
+- Select
+- Switch
+- Tabs
+- Toast
+- Tooltip
+- E muito mais...
 
-# ❤️ PULSO
+## 📝 Ferramentas de Qualidade de Código
 
-### Quando cada segundo importa, o Pulso guia o primeiro cuidado.
+- **TypeScript**: Tipagem estática
+- **Oxlint**: Linter extremamente rápido
+- **Oxfmt**: Formatação automática de código
 
-</p>
+## 🔄 Workflow de Desenvolvimento
+
+1. Instale as dependências: `npm install`
+2. Inicie o servidor de desenvolvimento: `npm start`
+3. Faça suas alterações
+4. Verifique o código: `npm run lint`
+5. Formate o código: `npm run format`
+6. Crie a build: `npm run build`
+7. Visualize a build: `npm run preview`
+
+## 📦 Build e Deploy
+
+Para criar uma build otimizada para produção:
+
+```bash
+npm run build
+```
+
+Os arquivos otimizados serão gerados na pasta `dist/` e estarão prontos para deploy.
