@@ -37,6 +37,7 @@ export function useSpeech() {
     stopListening(); stopSpeaking()
     if (!('speechSynthesis' in window)) { setError('Leitura em voz alta indisponível neste navegador. As orientações continuam na tela.'); return }
     setError('')
+    setIsSpeaking(true)
     const token = generation.current
     const chunks = text.match(/[^.!?]+[.!?]*/g) || [text]
     const read = (index: number) => {
@@ -57,17 +58,19 @@ export function useSpeech() {
     }
     read(0)
   }, [stopListening, stopSpeaking])
-  const startListening = useCallback((onCommand?: (command: string, transcript: string) => void) => {
+  const startListening = useCallback((onCommand?: (command: string, transcript: string) => void, handsFree = false) => {
     stopListening(); stopSpeaking(); setError(''); setRecognizedText('')
     if (!RecognitionClass) { setError('Este navegador não reconhece voz. Use a busca e os botões.'); return }
     if (!window.isSecureContext) { setError('O microfone precisa de uma conexão HTTPS. Use os botões nesta página.'); return }
     const recognition = new RecognitionClass()
     recognitionRef.current = recognition
+    setIsListening(true)
     recognition.lang = 'pt-BR'; recognition.continuous = false; recognition.interimResults = false
     recognition.onstart = () => setIsListening(true)
     recognition.onend = () => { if (recognitionRef.current === recognition) { recognitionRef.current = null; setIsListening(false) } }
     recognition.onerror = event => {
-      setIsListening(false)
+      stopListening()
+      if (event.error === 'no-speech' && handsFree) return
       const messages: Record<string, string> = {
         'not-allowed': 'Microfone bloqueado. Permita o acesso nas configurações do navegador ou use os botões.',
         'audio-capture': 'Não encontramos um microfone disponível.',
@@ -81,7 +84,11 @@ export function useSpeech() {
       const result = event.results[0][0]
       const transcript = result.transcript.trim()
       stopListening(); setRecognizedText(transcript)
-      if (result.confidence > 0 && result.confidence < 0.55) { setError('Não entendi com segurança. Repita ou use os botões.'); return }
+      if (result.confidence > 0 && result.confidence < 0.55) {
+        if (handsFree) onCommand?.('unknown', '')
+        else setError('Não entendi com segurança. Repita ou use os botões.')
+        return
+      }
       onCommand?.(parseVoiceCommand(transcript), transcript)
     }
     try { recognition.start() } catch { stopListening(); setError('Não foi possível iniciar o microfone. Tente novamente ou use os botões.') }

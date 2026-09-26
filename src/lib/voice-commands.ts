@@ -7,7 +7,7 @@ export function parseVoiceCommand(text: string): string {
     next: ['proximo', 'proximo passo', 'avancar', 'continuar'],
     back: ['voltar', 'anterior', 'passo anterior'],
     repeat: ['repita', 'repetir', 'repita o passo', 'repetir orientacao'],
-    stop: ['parar', 'silencio', 'parar leitura'],
+    stop: ['parar', 'silencio', 'parar leitura', 'pausar', 'pausar voz', 'desativar voz'],
     help: ['ajuda', 'socorro', 'preciso de ajuda', 'ligar 192', 'ligar samu', 'bombeiros'],
     failed: ['nao consegui', 'nao consigo'],
     'choice-1': ['opcao um', 'opcao 1', 'primeira opcao'],

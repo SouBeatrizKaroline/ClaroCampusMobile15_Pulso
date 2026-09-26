@@ -33,7 +33,7 @@ beforeEach(() => {
   vi.stubGlobal('speechSynthesis', { getVoices: () => [{ lang: 'pt-BR', localService: true }], cancel: vi.fn(), speak: (u: UtteranceMock) => { utterances.push(u); u.onstart?.() }, addEventListener: vi.fn(), removeEventListener: vi.fn() })
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
 })
-afterEach(() => { cleanup(); vi.unstubAllGlobals(); vi.restoreAllMocks() })
+afterEach(() => { cleanup(); vi.useRealTimers(); vi.unstubAllGlobals(); vi.restoreAllMocks() })
 
 describe('speech lifecycle', () => {
   it('does not ask for the microphone or speak on mount', () => {
@@ -105,19 +105,54 @@ it('a severe choking answer opens the severe branch, and back restores the quest
   fireEvent.click(screen.getByRole('button', { name: 'Etapa anterior' }))
   expect(screen.getByRole('heading', { name: 'A pessoa consegue tossir?' })).toBeTruthy()
 })
-it('voice cannot skip a question; voice choice requires confirmation and uses the current step', () => {
+it('voice cannot skip a question; a clear voice choice proceeds without a touch confirmation', () => {
   renderGuide()
   fireEvent.click(screen.getByRole('button', { name: 'Falar comando' }))
   act(() => RecognitionMock.last.result('próximo passo'))
   expect(screen.getByRole('heading', { name: 'A pessoa consegue tossir?' })).toBeTruthy()
   fireEvent.click(screen.getByRole('button', { name: 'Falar comando' }))
   act(() => RecognitionMock.last.result('opção dois'))
-  expect(screen.getByRole('heading', { name: 'A pessoa consegue tossir?' })).toBeTruthy()
-  fireEvent.click(screen.getByRole('button', { name: 'Confirmar escolha' }))
   expect(screen.getByRole('heading', { name: 'Alterne 5 golpes e 5 compressões' })).toBeTruthy()
   fireEvent.click(screen.getByRole('button', { name: 'Falar comando' }))
   act(() => RecognitionMock.last.result('opção dois'))
-  fireEvent.click(screen.getByRole('button', { name: 'Confirmar escolha' }))
   expect(screen.getByRole('heading', { name: 'Depois que o objeto sair' })).toBeTruthy()
   expect(screen.queryByRole('button', { name: 'Concluir Orientações' })).toBe(null)
+})
+
+function finishReading() {
+  act(() => {
+    let position = utterances.length - 1
+    while (position < utterances.length) utterances[position++].onend?.()
+  })
+}
+it('hands-free reads, listens, follows a choice and listens again without another click', () => {
+  vi.useFakeTimers()
+  renderGuide()
+  fireEvent.click(screen.getByRole('button', { name: 'Ativar mãos livres' }))
+  finishReading()
+  act(() => vi.advanceTimersByTime(600))
+  act(() => RecognitionMock.last.result('opção dois'))
+  expect(screen.getByRole('heading', { name: 'Alterne 5 golpes e 5 compressões' })).toBeTruthy()
+  finishReading()
+  act(() => vi.advanceTimersByTime(600))
+  act(() => RecognitionMock.last.result('opção dois'))
+  expect(screen.getByRole('heading', { name: 'Depois que o objeto sair' })).toBeTruthy()
+  finishReading()
+  act(() => vi.advanceTimersByTime(600))
+  act(() => RecognitionMock.last.result('pausar voz'))
+  expect(screen.getByRole('button', { name: 'Ativar mãos livres' })).toBeTruthy()
+})
+it('hands-free repeats uncertain speech and retries silence without advancing', () => {
+  vi.useFakeTimers()
+  renderGuide()
+  fireEvent.click(screen.getByRole('button', { name: 'Ativar mãos livres' }))
+  finishReading()
+  act(() => vi.advanceTimersByTime(600))
+  const firstMic = RecognitionMock.last
+  act(() => firstMic.onerror?.({ error: 'no-speech' }))
+  act(() => vi.advanceTimersByTime(600))
+  expect(RecognitionMock.last).not.toBe(firstMic)
+  act(() => RecognitionMock.last.result('opção dois', .2))
+  expect(screen.getByRole('heading', { name: 'A pessoa consegue tossir?' })).toBeTruthy()
+  expect(utterances.at(-1)?.text).toContain('Não entendi')
 })
