@@ -56,6 +56,9 @@ function Guide({ id }: { id: string }) {
     else { stopListening(); stopSpeaking() }
   }
   useEffect(() => { document.title = protocol ? `${protocol.title} · Pulso` : 'Orientação não encontrada · Pulso'; window.scrollTo(0, 0) }, [protocol])
+  useEffect(() => {
+    if (index > 0 || history.length) heading.current?.scrollIntoView?.({ block: 'start', behavior: 'instant' })
+  }, [index, history.length])
   const next = (target?: number) => {
     if (!protocol) return
     const destination = nextStepIndex(protocol, index, target)

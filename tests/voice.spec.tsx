@@ -107,6 +107,7 @@ it('a severe choking answer opens the severe branch, and back restores the quest
 })
 it('voice cannot skip a question; a clear voice choice proceeds without a touch confirmation', () => {
   renderGuide()
+  fireEvent.click(screen.getByText('Ajustes de voz'))
   fireEvent.click(screen.getByRole('button', { name: 'Falar comando' }))
   act(() => RecognitionMock.last.result('próximo passo'))
   expect(screen.getByRole('heading', { name: 'A pessoa consegue tossir?' })).toBeTruthy()

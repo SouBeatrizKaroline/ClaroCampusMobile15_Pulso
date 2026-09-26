@@ -17,11 +17,13 @@ export function VoiceAssistantBar({ voice, onCommand, text, rate, setRate, autoR
     <div className="voice-controls"><span className="voice-label">PULSO VOZ</span>
       <button className="button button-red small" disabled={!voice.isRecognitionSupported || !voice.isSpeechSupported} aria-pressed={handsFree} onClick={toggleHandsFree}>{handsFree ? <MicOff size={18}/> : <Mic size={18}/>} {handsFree ? 'Desativar mãos livres' : 'Ativar mãos livres'}</button>
       <button className="button small" disabled={!voice.isSpeechSupported} onClick={() => voice.isSpeaking ? voice.stopSpeaking() : voice.speak(text, rate)}>{voice.isSpeaking ? <Square size={17}/> : <Volume2 size={18}/>} {voice.isSpeaking ? 'Parar leitura' : 'Ouvir'}</button>
-      <button className={`button small ${voice.isListening ? 'listening' : ''}`} onClick={() => voice.isListening ? voice.stopListening() : voice.startListening(onCommand)} aria-pressed={voice.isListening}>{voice.isListening ? <MicOff size={18}/> : <Mic size={18}/>} {voice.isListening ? 'Parar escuta' : 'Falar comando'}</button>
+      <details className="voice-settings"><summary>Ajustes de voz</summary><div className="voice-settings-content">
+      <button className={`button small ${voice.isListening ? 'listening' : ''}`} disabled={handsFree} onClick={() => voice.isListening ? voice.stopListening() : voice.startListening(onCommand)} aria-pressed={voice.isListening}>{voice.isListening ? <MicOff size={18}/> : <Mic size={18}/>} {voice.isListening ? 'Parar escuta' : 'Falar comando'}</button>
       <button className="icon-button" aria-label="Repetir orientação" disabled={!voice.isSpeechSupported} onClick={() => voice.speak(text, rate)}><RotateCcw size={19}/></button>
       <label className="speed-label">Ritmo <select aria-label="Velocidade da leitura" value={rate} onChange={e => setRate(Number(e.target.value))}><option value={0.75}>Mais devagar</option><option value={0.92}>Natural</option><option value={1.1}>Mais rápido</option></select></label>
       <label className="auto-read"><input type="checkbox" checked={autoRead} onChange={e => setAutoRead(e.target.checked)} disabled={!voice.isSpeechSupported || handsFree}/> Ler próximos passos</label>
+      </div></details>
     </div>
-    <p className="voice-status" role="status">{voice.error || (voice.isListening ? 'Estou ouvindo. Diga “próximo passo”, “repetir”, “voltar” ou “opção 1”.' : handsFree && voice.isSpeaking ? 'Ouça a orientação. Em seguida, o microfone abrirá para sua resposta.' : message || 'Ative mãos livres uma vez. Depois, responda por voz ao ouvir “Estou ouvindo”. A voz pode precisar de internet.')}</p>
+    <p className="voice-status" role="status">{voice.error || (voice.isListening ? 'Estou ouvindo. Diga “próximo passo”, “repetir”, “voltar” ou “opção 1”.' : handsFree && voice.isSpeaking ? 'Ouça a orientação. Em seguida, o microfone abrirá para sua resposta.' : message || 'Com mãos livres, responda por voz após a leitura. A voz pode precisar de internet.')}</p>
   </div></section>
 }

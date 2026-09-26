@@ -185,6 +185,11 @@
 .voice-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 30; background: #fcfcf9f5; border-top: 1px solid #c9d3c2; padding: 14px 20px max(14px, env(safe-area-inset-bottom)); backdrop-filter: blur(12px); box-shadow: 0 -5px 25px #263b3210; }
 .voice-bar-inner { max-width: 1020px; margin-inline: auto; }
 .voice-controls { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.voice-settings summary { cursor: pointer; padding: 12px 8px; font-size: .75rem; min-height: 44px; }
+.step-panel h2 { scroll-margin-top: 110px; }
+.voice-settings-content { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 12px; }
+.voice-settings[open] { flex-basis: 100%; border-top: 1px solid #c9d3c2; }
+.voice-bar { max-height: 45dvh; overflow-y: auto; }
 .voice-label { font-size: .65rem; letter-spacing: .08em; font-weight: 750; color: #53644a; margin-right: 10px; }
 .speed-label, .auto-read { display: flex; align-items: center; gap: 7px; font-size: .72rem; }
 .speed-label select { background: #eff2ea; padding: 8px; border-radius: 5px; min-height: 42px; }
